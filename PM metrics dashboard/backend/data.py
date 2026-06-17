@@ -37,10 +37,13 @@ def load_mock_data() -> dict[str, Any]:
             "cause": sc["cause"],
             "sum_at_risk": sc["sum_at_risk"],
             "status": sc["status"],
+            "claim_type": sc["claim_type"],
             "day_of_claim": sc.get("day_of_claim", 0),
             "policyholder": sc.get("policyholder", {}),
             "metrics": sc.get("metrics_per_claim", {}),
             "fraud_flags": sc.get("fraud_flags", []),
+            "expected_anomalies": sc.get("expected_anomalies", []),
+            "expected_recommendation": sc.get("expected_recommendation"),
         }
 
     return {

@@ -27,6 +27,7 @@
       },
       "sum_at_risk": 800000000,
       "status": "Decision_pending",
+      "claim_type": "simple",
       "day_of_claim": 4,
       "metrics_per_claim": {
         "tat_days": {"actual": 1.8, "target": 5, "variance_pct": -64, "trend_7d": "stable"},
@@ -65,6 +66,7 @@
       },
       "sum_at_risk": 500000000,
       "status": "Under_investigation",
+      "claim_type": "simple",
       "day_of_claim": 2,
       "metrics_per_claim": {
         "tat_days": {"actual": 2.1, "target": 5, "variance_pct": -58, "trend_7d": "stable"},
@@ -132,6 +134,7 @@
       },
       "sum_at_risk": 2000000000,
       "status": "SIU_review",
+      "claim_type": "simple",
       "day_of_claim": 1,
       "fraud_flags": [
         "Policy issued only 45 days before claim",
@@ -142,7 +145,7 @@
       ],
       "metrics_per_claim": {
         "tat_days": {"actual": 0.8, "target": 5, "variance_pct": -84, "trend_7d": "n/a", "note": "Fast-tracked to SIU"},
-        "pct_manual_intervention": {"actual": 0.60, "target": 0.30, "variance_pct": 100, "trend_7d": "n/a", "note": "Expected for SIU cases"},
+        "pct_manual_intervention": {"actual": 0.60, "target": 0.30, "variance_pct": 100, "trend_7d": "n/a", "note": "Manual handling expected because fraud alert routes the claim to SIU review"},
         "sla_compliance": {"actual": null, "target": 0.95, "note": "SIU cases excluded from SLA"},
         "fraud_score": {"actual": 0.78, "target": 0.30, "variance_pct": 160, "trend_7d": "up", "anomaly": "RED"},
         "csat": {"actual": null, "target": 4.0, "note": "Not yet measured"},
@@ -189,14 +192,15 @@
       },
       "sum_at_risk": 1500000000,
       "status": "Under_investigation",
+      "claim_type": "complex",
       "day_of_claim": 32,
       "metrics_per_claim": {
         "tat_days": {"actual": 32, "target": 30, "variance_pct": 7, "trend_7d": "up", "anomaly": "RED", "note": "Exceeds complex claim threshold"},
         "pct_manual_intervention": {"actual": 0.45, "target": 0.30, "variance_pct": 50, "trend_7d": "up", "anomaly": "AMBER"},
         "sla_compliance": {"actual": 0.88, "target": 0.95, "variance_pct": -7, "trend_7d": "down", "anomaly": "RED"},
         "fraud_score": {"actual": 0.22, "target": 0.30, "variance_pct": -27, "trend_7d": "stable"},
-        "csat": {"actual": 3.2, "target": 4.0, "variance_pct": -20, "trend_7d": "down", "anomaly": "AMBER"},
-        "ces": {"actual": 2.8, "target": 4.0, "variance_pct": -30, "trend_7d": "down", "anomaly": "AMBER"},
+        "csat": {"actual": 3.2, "target": 4.0, "variance_pct": -20, "trend_7d": "down", "anomaly": "RED"},
+        "ces": {"actual": 2.8, "target": 4.0, "variance_pct": -30, "trend_7d": "down", "anomaly": "RED"},
         "dropoff_pct": {"actual": 0.18, "target": 0.10, "variance_pct": 80, "trend_7d": "up", "step": "additional_medical_records"},
         "tickets_volume": {"actual": 4, "target": 2, "variance_pct": 100, "trend_7d": "up"},
         "tickets_tat_hours": {"actual": 8.0, "target": 4, "variance_pct": 100, "trend_7d": "up"},
@@ -225,12 +229,21 @@
           "source_claims": ["CLM-LIFE-2026-001755"]
         },
         {
-          "level": "AMBER",
+          "level": "RED",
           "metric": "csat",
-          "title": "CSAT below threshold",
-          "root_cause": "4 support tickets raised by claimant, avg TAT 8h. Frustration with documentation back-and-forth.",
+          "title": "CSAT critical — below threshold",
+          "root_cause": "4 support tickets raised by claimant, avg TAT 8h (actual 3.2 < 4.0 RED threshold). Frustration with documentation back-and-forth.",
           "recommendation": "Assign dedicated case manager. Proactive daily status updates to claimant.",
           "confidence_pct": 88,
+          "source_claims": ["CLM-LIFE-2026-001755"]
+        },
+        {
+          "level": "RED",
+          "metric": "ces",
+          "title": "CES critical — below threshold",
+          "root_cause": "Actual 2.8 < 3.6 RED threshold. Prolonged TAT and friction with additional medical records step causing claimant effort frustration.",
+          "recommendation": "Simplify documentation process. Reduce document re-requests.",
+          "confidence_pct": 85,
           "source_claims": ["CLM-LIFE-2026-001755"]
         },
         {
@@ -245,8 +258,8 @@
       ],
       "expected_recommendation": "Immediate escalation. Senior adjuster assignment. Customer recovery protocol. Likely churn risk after payout.",
       "dod_checklist": {
-        "two_red_alerts_fire": true,
-        "two_amber_alerts_fire": true,
+        "four_red_alerts_fire": true,
+        "one_amber_alert_fires": true,
         "escalation_indicated": true,
         "negative_clv_displayed": true,
         "nlp_q2_lists_this_claim": true

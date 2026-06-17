@@ -77,15 +77,16 @@
 ## Scenario S4 · SLA breach on complex claim
 
 **Claim**: CLM-LIFE-2026-001755 · Mrs. P.T.H. · 58 · heart disease + comorbidity · day 32 · 1.5B VND  
-**What you should see**: 2 RED + 2 AMBER alerts, escalation indicator, negative CLV, customer recovery recommendation.
+**What you should see**: 4 RED + 1 AMBER alerts, escalation indicator, negative CLV, customer recovery recommendation.
 
 ### DOD checklist
 - [ ] Tile values match S4 in `mock_claims_uat.json`
-- [ ] Exactly **2 RED** alerts: `tat_days`, `sla_compliance`
-- [ ] Exactly **2 AMBER** alerts: `csat`, `pct_manual_intervention`
+- [ ] Exactly **4 RED** alerts: `tat_days`, `sla_compliance`, `csat`, `ces`
+- [ ] Exactly **1 AMBER** alert: `pct_manual_intervention`
 - [ ] `tat_days` card recommends: escalate to senior adjuster + direct hospital records call + customer recovery within 24h
 - [ ] `sla_compliance` card notes "direct consequence of TAT" (composite correlation working)
 - [ ] `csat` card recommends: dedicated case manager + proactive daily updates
+- [ ] `ces` card recommends: simplify documentation process + reduce document re-requests
 - [ ] `pct_manual_intervention` card notes "acceptable for complexity, monitor"
 - [ ] CLV tile shows **-15%** with churn risk note
 - [ ] Cross-sell tile disabled with reason "Customer dissatisfaction risk; recover first"

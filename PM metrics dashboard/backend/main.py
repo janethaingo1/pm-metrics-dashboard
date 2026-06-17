@@ -103,6 +103,7 @@ def list_claims():
             "day_of_claim": c["day_of_claim"],
             "sum_at_risk": c["sum_at_risk"],
             "policyholder": c["policyholder"],
+            "claim_type": c["claim_type"],
             "expected_anomalies_count": len(scenario.get("expected_anomalies", [])),
         })
     return {"claims": result, "count": len(result)}

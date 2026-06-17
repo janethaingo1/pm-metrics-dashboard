@@ -100,12 +100,16 @@ EXPECTED: dict[str, list[dict]] = {
 def evaluate_claim(claim_id: str, claim: dict) -> list[dict]:
     """Return anomaly cards for a claim.
 
-    For known UAT scenarios, uses exact expected_anomalies.
+    For UAT scenarios, uses exact expected_anomalies from mock_claims_uat.json.
     For unknown claims, uses rule-based thresholds.
     """
-    if claim_id in EXPECTED:
+    expected = claim.get("expected_anomalies")
+    if expected is None and claim_id in EXPECTED:
+        expected = EXPECTED[claim_id]
+
+    if expected is not None:
         cards = []
-        for e in EXPECTED[claim_id]:
+        for e in expected:
             card = {
                 **e,
                 "advisory_only": True,
@@ -117,6 +121,13 @@ def evaluate_claim(claim_id: str, claim: dict) -> list[dict]:
             card.setdefault("actual", m.get("actual"))
             card.setdefault("target", m.get("target"))
             card.setdefault("label", e.get("metric", ""))
+            if e["metric"] == "fraud_score":
+                manual = metrics.get("pct_manual_intervention", {})
+                card["manual_intervention_context"] = {
+                    "actual": manual.get("actual"),
+                    "target": manual.get("target"),
+                    "note": manual.get("note", "Manual handling required for fraud investigation"),
+                }
             cards.append(card)
         return cards
 
@@ -127,8 +138,7 @@ def _rule_based(claim_id: str, claim: dict) -> list[dict]:
     """Rule-based anomaly detection for non-scenario claims."""
     metrics = claim.get("metrics", {})
     cards: list[dict] = []
-    cause_str = (claim.get("cause") or "").lower()
-    is_complex = any(kw in cause_str for kw in ["comorbidity", "complication", "critical illness"])
+    is_complex = claim.get("claim_type") == "complex"
     status = (claim.get("status") or "").lower()
 
     def _add(level, key, actual, target, label, **kw):

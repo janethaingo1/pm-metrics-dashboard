@@ -7,7 +7,8 @@
 |---|---|
 | `backend/main.py` | FastAPI server — 7 endpoints |
 | `backend/data.py` | Loads `mock_claims_uat.json` into memory |
-| `backend/anomalies.py` | Anomaly engine — UAT exact match for S1-S4 |
+| `backend/anomalies.py` | Anomaly engine — reads UAT `expected_anomalies` from mock JSON |
+| `backend/uat_regression_check.py` | Regression guard for Jane's 2026-06-17 logic updates |
 | `backend/nlp.py` | NLP Q&A — DeepSeek v4-flash with fallback |
 | `backend/requirements.txt` | `fastapi`, `uvicorn`, `httpx` |
 | `ai_decisions.log` | Audit log (JSONL) |
@@ -33,9 +34,17 @@
 | S3 (001923) | 1 RED (fraud_score) | ✅ 1 RED |
 | S4 (001755) | 4 RED (TAT, SLA, CSAT, CES) + 1 AMBER (Manual) | ✅ 4 RED + 1 AMBER |
 
+### Regression command
+```bash
+cd "/Users/thaingo/Documents/Prudential/PM metrics dashboard"
+python3 backend/uat_regression_check.py
+```
+
+Expected output: `updated UAT regression checks passed`
+
 ### How to run
 ```bash
-cd /Users/thaingo/Documents/Prudential
+cd "/Users/thaingo/Documents/Prudential/PM metrics dashboard"
 pip3 install --break-system-packages fastapi uvicorn httpx
 python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
 ```
@@ -62,3 +71,6 @@ python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
 - Light + dark mode
 - `reserve_vnd` tile separate from main 12
 - S3 fraud = primary RED alert
+- S3 manual-intervention context is supporting explanation on the fraud card, not a separate anomaly
+- Claim type is explicit: `claim_type: simple | complex`
+- S4 final alert set is 4 RED (`tat_days`, `sla_compliance`, `csat`, `ces`) + 1 AMBER (`pct_manual_intervention`)
