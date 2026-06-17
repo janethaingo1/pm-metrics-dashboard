@@ -1,0 +1,276 @@
+{
+  "pilot": "PMMetricsAI-3day",
+  "version": "1.0",
+  "generated": "2026-06-17T08:00:00Z",
+  "currency": "VND",
+  "period_context": {
+    "week_start": "2026-06-15T00:00:00Z",
+    "week_end": "2026-06-21T23:59:59Z",
+    "total_claims_this_week": 47,
+    "manual_intervention_rate_this_week": 0.34,
+    "sla_compliance_this_week": 0.92,
+    "fraud_precision_this_month": 0.68,
+    "dropoff_step_highest": "upload_death_certificate"
+  },
+  "scenarios": [
+    {
+      "scenario_id": "S1_HEALTHY_BASELINE",
+      "claim_id": "CLM-LIFE-2026-001500",
+      "policy_id": "POL-2018-TL-449821",
+      "fnol_date": "2026-06-13T10:15:00Z",
+      "cause": "Natural death (cardiovascular)",
+      "policyholder": {
+        "initials": "Mr. T.V.B.",
+        "age": 68,
+        "city": "HCMC",
+        "tier": "Standard"
+      },
+      "sum_at_risk": 800000000,
+      "status": "Decision_pending",
+      "day_of_claim": 4,
+      "metrics_per_claim": {
+        "tat_days": {"actual": 1.8, "target": 5, "variance_pct": -64, "trend_7d": "stable"},
+        "pct_manual_intervention": {"actual": 0.22, "target": 0.30, "variance_pct": -27, "trend_7d": "stable"},
+        "sla_compliance": {"actual": 0.98, "target": 0.95, "variance_pct": 3, "trend_7d": "up"},
+        "fraud_score": {"actual": 0.08, "target": 0.30, "variance_pct": -73, "trend_7d": "stable"},
+        "csat": {"actual": 4.6, "target": 4.0, "variance_pct": 15, "trend_7d": "stable"},
+        "ces": {"actual": 4.3, "target": 4.0, "variance_pct": 7, "trend_7d": "stable"},
+        "dropoff_pct": {"actual": 0.04, "target": 0.10, "variance_pct": -60, "trend_7d": "stable"},
+        "tickets_volume": {"actual": 0, "target": 2, "variance_pct": -100, "trend_7d": "stable"},
+        "tickets_tat_hours": {"actual": 0, "target": 4, "variance_pct": 0, "trend_7d": "n/a"},
+        "cost_per_claim_vnd": {"actual": 850000, "target": 1000000, "variance_pct": -15, "trend_7d": "stable"},
+        "cross_sell_eligible": {"actual": false, "reason": "Natural death, no surviving policyholder upgrade path"},
+        "clv_update_pct": {"actual": 0, "target": null, "note": "Final claim, no renewal lift"},
+        "reserve_vnd": {"actual": 800000000, "ifrs17_csm_impact": "release_on_payment"}
+      },
+      "expected_anomalies": [],
+      "expected_recommendation": "Standard processing. No intervention required.",
+      "dod_checklist": {
+        "all_12_tiles_render_green": true,
+        "zero_anomaly_alerts": true,
+        "nlp_can_explain": "Healthy claim, all metrics within target"
+      }
+    },
+    {
+      "scenario_id": "S2_OPS_CLUSTER_ANOMALY",
+      "claim_id": "CLM-LIFE-2026-001847",
+      "policy_id": "POL-2021-CI-887234",
+      "fnol_date": "2026-06-15T09:23:00Z",
+      "cause": "Critical illness (cancer stage 2)",
+      "policyholder": {
+        "initials": "Mr. N.V.A.",
+        "age": 42,
+        "city": "HCMC",
+        "tier": "Premium"
+      },
+      "sum_at_risk": 500000000,
+      "status": "Under_investigation",
+      "day_of_claim": 2,
+      "metrics_per_claim": {
+        "tat_days": {"actual": 2.1, "target": 5, "variance_pct": -58, "trend_7d": "stable"},
+        "pct_manual_intervention": {"actual": 0.38, "target": 0.30, "variance_pct": 27, "trend_7d": "up", "anomaly": "AMBER"},
+        "sla_compliance": {"actual": 0.92, "target": 0.95, "variance_pct": -3, "trend_7d": "down", "anomaly": "AMBER"},
+        "fraud_score": {"actual": 0.15, "target": 0.30, "variance_pct": -50, "trend_7d": "stable"},
+        "csat": {"actual": 4.1, "target": 4.0, "variance_pct": 3, "trend_7d": "stable"},
+        "ces": {"actual": 3.6, "target": 4.0, "variance_pct": -10, "trend_7d": "down", "anomaly": "AMBER"},
+        "dropoff_pct": {"actual": 0.12, "target": 0.10, "variance_pct": 20, "trend_7d": "up", "step": "upload_hospital_discharge"},
+        "tickets_volume": {"actual": 1, "target": 2, "variance_pct": -50, "trend_7d": "stable"},
+        "tickets_tat_hours": {"actual": 1.2, "target": 4, "variance_pct": -70, "trend_7d": "stable"},
+        "cost_per_claim_vnd": {"actual": 1200000, "target": 1000000, "variance_pct": 20, "trend_7d": "up"},
+        "cross_sell_eligible": {"actual": true, "product": "Health+Wellness bundle", "trigger": "post-claim survival incentive"},
+        "clv_update_pct": {"actual": 8, "target": null, "note": "Recovery + renewal lift expected"},
+        "reserve_vnd": {"actual": 500000000, "ifrs17_csm_impact": "partial_release_on_decision"}
+      },
+      "expected_anomalies": [
+        {
+          "level": "AMBER",
+          "metric": "pct_manual_intervention",
+          "title": "% manual intervention spike",
+          "root_cause": "Cluster: 12 of 47 claims this week triggered manual review on Critical Illness documentation step (new SOP-2026-04)",
+          "recommendation": "Auto-route to STP if doc type = hospital discharge summary AND diagnosis code matches ICD-10 C00-C97",
+          "confidence_pct": 87,
+          "source_claims": ["CLM-LIFE-2026-001847", "CLM-LIFE-2026-001823", "CLM-LIFE-2026-001801"]
+        },
+        {
+          "level": "AMBER",
+          "metric": "sla_compliance",
+          "title": "SLA compliance dipping",
+          "root_cause": "Correlated with manual intervention spike — added review steps delay decision phase",
+          "recommendation": "Resolving manual intervention root cause will lift SLA by ~5pp",
+          "confidence_pct": 82,
+          "source_claims": ["CLM-LIFE-2026-001847", "CLM-LIFE-2026-001755"]
+        },
+        {
+          "level": "AMBER",
+          "metric": "ces",
+          "title": "CES dip at document upload",
+          "root_cause": "14 of 20 claimants this week reported friction at upload death certificate / hospital discharge step — file-size limit 5MB too low for hospital scans",
+          "recommendation": "Raise file-size limit to 20MB + add HEIC format support",
+          "confidence_pct": 91,
+          "source_claims": ["CLM-LIFE-2026-001847", "CLM-LIFE-2026-001891", "CLM-LIFE-2026-001902"]
+        }
+      ],
+      "expected_recommendation": "Investigate cluster pattern. Implement SOP refinement. UI fix for upload step.",
+      "dod_checklist": {
+        "three_amber_alerts_fire": true,
+        "zero_red_alerts": true,
+        "cross_sell_tile_shows_eligible": true,
+        "nlp_q1_answers_with_this_claim_cited": true
+      }
+    },
+    {
+      "scenario_id": "S3_FRAUD_FLAG",
+      "claim_id": "CLM-LIFE-2026-001923",
+      "policy_id": "POL-2026-TL-991145",
+      "fnol_date": "2026-06-16T22:08:00Z",
+      "cause": "Accidental death (vehicle collision)",
+      "policyholder": {
+        "initials": "Mr. L.T.D.",
+        "age": 35,
+        "city": "Hanoi",
+        "tier": "Standard"
+      },
+      "sum_at_risk": 2000000000,
+      "status": "SIU_review",
+      "day_of_claim": 1,
+      "fraud_flags": [
+        "Policy issued only 45 days before claim",
+        "Beneficiary changed 30 days before claim",
+        "Accident scene report inconsistent with police filing",
+        "Sum insured 3x prior policy",
+        "Claim filed at 22:08 (off-hours, unusual for accidental claims)"
+      ],
+      "metrics_per_claim": {
+        "tat_days": {"actual": 0.8, "target": 5, "variance_pct": -84, "trend_7d": "n/a", "note": "Fast-tracked to SIU"},
+        "pct_manual_intervention": {"actual": 0.60, "target": 0.30, "variance_pct": 100, "trend_7d": "n/a", "note": "Expected for SIU cases"},
+        "sla_compliance": {"actual": null, "target": 0.95, "note": "SIU cases excluded from SLA"},
+        "fraud_score": {"actual": 0.78, "target": 0.30, "variance_pct": 160, "trend_7d": "up", "anomaly": "RED"},
+        "csat": {"actual": null, "target": 4.0, "note": "Not yet measured"},
+        "ces": {"actual": null, "target": 4.0, "note": "Not yet measured"},
+        "dropoff_pct": {"actual": 0, "target": 0.10, "note": "Single-session claim"},
+        "tickets_volume": {"actual": 2, "target": 2, "variance_pct": 0, "trend_7d": "stable"},
+        "tickets_tat_hours": {"actual": 0.5, "target": 4, "variance_pct": -88, "trend_7d": "stable"},
+        "cost_per_claim_vnd": {"actual": 3500000, "target": 1000000, "variance_pct": 250, "note": "SIU investigation cost"},
+        "cross_sell_eligible": {"actual": false, "reason": "Under fraud investigation"},
+        "clv_update_pct": {"actual": null, "note": "Pending fraud outcome"},
+        "reserve_vnd": {"actual": 2000000000, "ifrs17_csm_impact": "onerous_contract_flag"}
+      },
+      "expected_anomalies": [
+        {
+          "level": "RED",
+          "metric": "fraud_score",
+          "title": "High fraud risk · auto-routed to SIU",
+          "root_cause": "Composite score 0.78 driven by 5 red flags: recent policy issuance, recent beneficiary change, scene inconsistency, sum insured anomaly, off-hours filing",
+          "recommendation": "Hold payment. Escalate to Special Investigation Unit. Notify reinsurance partner per treaty clause 4.2",
+          "confidence_pct": 94,
+          "source_claims": ["CLM-LIFE-2026-001923"],
+          "regulatory_note": "SBV reporting required if fraud confirmed (Circular 09, Article 14)"
+        }
+      ],
+      "expected_recommendation": "Hold all processing. SIU investigation. No customer communication until SIU clears.",
+      "dod_checklist": {
+        "one_red_alert_fires": true,
+        "siu_routing_indicated": true,
+        "regulatory_note_displayed": true,
+        "cross_sell_tile_disabled": true
+      }
+    },
+    {
+      "scenario_id": "S4_SLA_BREACH_COMPLEX",
+      "claim_id": "CLM-LIFE-2026-001755",
+      "policy_id": "POL-2015-CI-223451",
+      "fnol_date": "2026-05-18T11:42:00Z",
+      "cause": "Critical illness (heart disease complications + comorbidity)",
+      "policyholder": {
+        "initials": "Mrs. P.T.H.",
+        "age": 58,
+        "city": "Da Nang",
+        "tier": "Premium"
+      },
+      "sum_at_risk": 1500000000,
+      "status": "Under_investigation",
+      "day_of_claim": 32,
+      "metrics_per_claim": {
+        "tat_days": {"actual": 32, "target": 30, "variance_pct": 7, "trend_7d": "up", "anomaly": "RED", "note": "Exceeds complex claim threshold"},
+        "pct_manual_intervention": {"actual": 0.45, "target": 0.30, "variance_pct": 50, "trend_7d": "up", "anomaly": "AMBER"},
+        "sla_compliance": {"actual": 0.88, "target": 0.95, "variance_pct": -7, "trend_7d": "down", "anomaly": "RED"},
+        "fraud_score": {"actual": 0.22, "target": 0.30, "variance_pct": -27, "trend_7d": "stable"},
+        "csat": {"actual": 3.2, "target": 4.0, "variance_pct": -20, "trend_7d": "down", "anomaly": "AMBER"},
+        "ces": {"actual": 2.8, "target": 4.0, "variance_pct": -30, "trend_7d": "down", "anomaly": "AMBER"},
+        "dropoff_pct": {"actual": 0.18, "target": 0.10, "variance_pct": 80, "trend_7d": "up", "step": "additional_medical_records"},
+        "tickets_volume": {"actual": 4, "target": 2, "variance_pct": 100, "trend_7d": "up"},
+        "tickets_tat_hours": {"actual": 8.0, "target": 4, "variance_pct": 100, "trend_7d": "up"},
+        "cost_per_claim_vnd": {"actual": 2800000, "target": 1000000, "variance_pct": 180, "trend_7d": "up"},
+        "cross_sell_eligible": {"actual": false, "reason": "Customer dissatisfaction risk; recover first"},
+        "clv_update_pct": {"actual": -15, "target": null, "note": "Likely churn post-payout"},
+        "reserve_vnd": {"actual": 1500000000, "ifrs17_csm_impact": "extended_release_period"}
+      },
+      "expected_anomalies": [
+        {
+          "level": "RED",
+          "metric": "tat_days",
+          "title": "TAT breach on complex claim",
+          "root_cause": "Day 32 of investigation, exceeds 30d complex threshold. Bottleneck: 3 medical record requests pending from 2 different hospitals.",
+          "recommendation": "Escalate to senior adjuster. Direct call to hospital records department. Customer recovery call within 24h.",
+          "confidence_pct": 96,
+          "source_claims": ["CLM-LIFE-2026-001755"]
+        },
+        {
+          "level": "RED",
+          "metric": "sla_compliance",
+          "title": "SLA breach",
+          "root_cause": "Direct consequence of TAT breach above",
+          "recommendation": "Resolving TAT root cause resolves this. No separate action.",
+          "confidence_pct": 99,
+          "source_claims": ["CLM-LIFE-2026-001755"]
+        },
+        {
+          "level": "AMBER",
+          "metric": "csat",
+          "title": "CSAT below threshold",
+          "root_cause": "4 support tickets raised by claimant, avg TAT 8h. Frustration with documentation back-and-forth.",
+          "recommendation": "Assign dedicated case manager. Proactive daily status updates to claimant.",
+          "confidence_pct": 88,
+          "source_claims": ["CLM-LIFE-2026-001755"]
+        },
+        {
+          "level": "AMBER",
+          "metric": "pct_manual_intervention",
+          "title": "Manual intervention high",
+          "root_cause": "Complex case + comorbidity requires specialist review at multiple steps",
+          "recommendation": "Acceptable for case complexity. Monitor but no action.",
+          "confidence_pct": 79,
+          "source_claims": ["CLM-LIFE-2026-001755"]
+        }
+      ],
+      "expected_recommendation": "Immediate escalation. Senior adjuster assignment. Customer recovery protocol. Likely churn risk after payout.",
+      "dod_checklist": {
+        "two_red_alerts_fire": true,
+        "two_amber_alerts_fire": true,
+        "escalation_indicated": true,
+        "negative_clv_displayed": true,
+        "nlp_q2_lists_this_claim": true
+      }
+    }
+  ],
+  "platform_metrics_strip": {
+    "sprint_velocity_sp": 32,
+    "dora_deploy_per_week": 4,
+    "change_failure_rate_pct": 8,
+    "lead_time_hours": 12,
+    "project_on_time_pct": 94,
+    "project_on_scope_pct": 91,
+    "project_on_budget_pct": 102,
+    "incidents_p1_this_week": 0,
+    "incidents_p2_this_week": 2,
+    "incidents_p3_this_week": 7,
+    "mttd_minutes": 8,
+    "mttr_minutes": 32,
+    "regulatory_compliance_score": 94,
+    "platform_nps_aggregate": 38,
+    "retention_d30_pct": 88,
+    "retention_d90_pct": 82,
+    "user_peak_window": "10:00-12:00 ICT",
+    "user_segment_top": "35-45 yo · HCMC · Premium tier"
+  }
+}
