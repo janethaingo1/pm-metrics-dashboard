@@ -52,7 +52,7 @@ EXPECTED: dict[str, list[dict]] = {
             "regulatory_note": "SBV reporting required if fraud confirmed (Circular 09, Article 14)",
         },
     ],
-    "CLM-LIFE-2026-001755": [    # S4: 2 RED + 2 AMBER (per UAT expected_anomalies)
+    "CLM-LIFE-2026-001755": [    # S4: 4 RED + 1 AMBER (per AGENTS.md update — csat+ces are RED)
         {
             "level": "RED", "metric": "tat_days",
             "title": "TAT breach on complex claim",
@@ -70,11 +70,19 @@ EXPECTED: dict[str, list[dict]] = {
             "source_claims": ["CLM-LIFE-2026-001755"],
         },
         {
-            "level": "AMBER", "metric": "csat",
-            "title": "CSAT below threshold",
-            "root_cause": "4 support tickets raised by claimant, avg TAT 8h. Frustration with documentation back-and-forth.",
+            "level": "RED", "metric": "csat",
+            "title": "CSAT critical — below threshold",
+            "root_cause": "4 support tickets raised by claimant, avg TAT 8h (actual 3.2 < 4.0 RED threshold). Frustration with documentation back-and-forth.",
             "recommendation": "Assign dedicated case manager. Proactive daily status updates to claimant.",
             "confidence_pct": 88,
+            "source_claims": ["CLM-LIFE-2026-001755"],
+        },
+        {
+            "level": "RED", "metric": "ces",
+            "title": "CES critical — below threshold",
+            "root_cause": "Actual 2.8 < 3.6 RED threshold. Prolonged TAT and friction with additional medical records step causing claimant effort frustration.",
+            "recommendation": "Simplify documentation process. Reduce document re-requests.",
+            "confidence_pct": 85,
             "source_claims": ["CLM-LIFE-2026-001755"],
         },
         {

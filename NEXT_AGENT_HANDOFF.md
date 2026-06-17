@@ -31,7 +31,7 @@
 | S1 (001500) | 0 alerts | ✅ 0 |
 | S2 (001847) | 3 AMBER (Manual, SLA, CES) | ✅ 3 AMBER |
 | S3 (001923) | 1 RED (fraud_score) | ✅ 1 RED |
-| S4 (001755) | 2 RED (TAT, SLA) + 2 AMBER (CSAT, Manual) | ✅ 2 RED + 2 AMBER |
+| S4 (001755) | 4 RED (TAT, SLA, CSAT, CES) + 1 AMBER (Manual) | ✅ 4 RED + 1 AMBER |
 
 ### How to run
 ```bash
