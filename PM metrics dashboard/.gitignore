@@ -1,0 +1,20 @@
+# PMMetricsAI - PM metrics dashboard
+
+## Python
+__pycache__/
+*.pyc
+
+## macOS
+.DS_Store
+
+## Runtime logs
+ai_decisions.log
+
+## Design reference (Stitch exports - source of truth is zip)
+stitch_exports/
+
+## Duplicate source copies
+files/
+
+## Archives
+*.zip
