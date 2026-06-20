@@ -38,7 +38,7 @@ def _sanitize_input(query: str) -> str:
 
 def _build_prompt(query: str, claims_context: dict[str, Any]) -> str:
     """Build structured prompt with RAG context."""
-    return f"""You are a Vietnamese life insurance analytics assistant.
+    return f"""You are an English-speaking life insurance analytics assistant. You must always answer in English.
 Answer the PM's question using only the claim data and the assumptions appendix provided below.
 Every answer MUST cite specific claim IDs from the data and reference the relevant row code from assumptions_appendix.md (e.g. A1, C1, C3, O1, O2, O3, O4, O5, X1, X2, X3, R1, R2).
 If uncertain, state your confidence honestly (≥70% or suppress).
@@ -113,7 +113,7 @@ def ask(query: str, claims_context: dict[str, Any]) -> dict[str, Any]:
                     },
                     json={
                         "model": CLAUDE_MODEL,
-                        "system": "You are a Vietnamese life insurance analytics assistant. Be concise, cite claims, cite assumptions_appendix.md rows, mark advisory_only.",
+                        "system": "You are an English-speaking life insurance analytics assistant. Be concise, cite claims, cite assumptions_appendix.md rows, mark advisory_only. You must always answer in English.",
                         "messages": [
                             {"role": "user", "content": prompt},
                         ],
@@ -138,7 +138,7 @@ def ask(query: str, claims_context: dict[str, Any]) -> dict[str, Any]:
                     json={
                         "model": DEEPSEEK_MODEL,
                         "messages": [
-                            {"role": "system", "content": "You are a Vietnamese life insurance analytics assistant. Be concise, cite claims, mark advisory_only."},
+                            {"role": "system", "content": "You are an English-speaking life insurance analytics assistant. Be concise, cite claims, mark advisory_only. You must always answer in English."},
                             {"role": "user", "content": prompt},
                         ],
                         "max_tokens": 500,

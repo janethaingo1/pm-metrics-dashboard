@@ -42,7 +42,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
   const [claimDetail, setClaimDetail] = useState<any>(null);
   const [anomalies, setAnomalies] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const [chatHistory, setChatHistory] = useState<any[]>([{ sender: 'system', text: 'Chào Jane. Tôi là AI Advisor. Hãy đặt câu hỏi về các chỉ số bồi thường.' }]);
+  const [chatHistory, setChatHistory] = useState<any[]>([{ sender: 'system', text: 'Hello Jane. I am your AI Advisor. Ask me anything about claims metrics.' }]);
   const [chatInput, setChatInput] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
   const [queryCount, setQueryCount] = useState(0);
@@ -75,7 +75,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
 
   useEffect(() => {
     if (selectedClaimId) {
-      setChatHistory([{ sender: 'system', text: 'Chào Jane. Tôi là AI Advisor. Hãy đặt câu hỏi về các chỉ số bồi thường.' }]);
+      setChatHistory([{ sender: 'system', text: 'Hello Jane. I am your AI Advisor. Ask me anything about claims metrics.' }]);
       setQueryCount(0);
       setShowResetBanner(true);
       const timer = setTimeout(() => setShowResetBanner(false), 4000);
@@ -270,7 +270,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
   const handleSendChat = async () => {
     if (!chatInput.trim() || chatLoading) return;
     if (queryCount >= 5) {
-      setChatHistory(p => [...p, { sender: 'user', text: chatInput }, { sender: 'system', text: '⚠️ CẢNH BÁO RATE LIMIT: Bạn đã đạt giới hạn 5 truy vấn NLP tối đa (OWASP LLM10).' }]);
+      setChatHistory(p => [...p, { sender: 'user', text: chatInput }, { sender: 'system', text: '⚠️ RATE LIMIT WARNING: You have reached the limit of 5 maximum NLP queries (OWASP LLM10).' }]);
       setChatInput(''); return;
     }
     const q = chatInput; setChatHistory(p => [...p, { sender: 'user', text: q }]); setChatInput(''); setChatLoading(true);
@@ -280,7 +280,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
       setQueryCount(p => p + 1);
       setChatHistory(p => [...p, aiLayerEnabled ? { sender: 'system', text: d.answer, confidence: d.confidence_pct, citations: d.source_claims } : { sender: 'system', text: 'NLP Engine offline: AI layer disabled.' }]);
     } catch {
-      setChatHistory(p => [...p, { sender: 'system', text: 'Lỗi kết nối đến NLP server.' }]);
+      setChatHistory(p => [...p, { sender: 'system', text: 'Connection error to NLP server.' }]);
     } finally { setChatLoading(false); }
   };
 
@@ -298,7 +298,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
         <div className="bg-[#0a0a1a]/60 backdrop-blur-xl border border-outline-variant rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h3 className="text-base font-bold text-[#00e5ff] drop-shadow-[0_0_5px_rgba(0,229,255,0.4)]">Strategic Claim Selector</h3>
-            <p className="text-[10px] text-gray-400 mt-0.5">Chọn kịch bản UAT để kiểm tra kết quả bồi thường & các cảnh báo AI.</p>
+            <p className="text-[10px] text-gray-400 mt-0.5">Select a UAT scenario to check claims results and AI warnings.</p>
           </div>
           <select value={selectedClaimId} onChange={e => onSelectClaimId(e.target.value)} className="bg-[#0f0f26] border border-[#00e5ff]/30 text-white rounded px-3 py-1.5 focus:outline-none focus:border-[#ff2d78] font-semibold">
             {claims.map(c => (
@@ -321,7 +321,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
                     Claim File: {claimDetail.claim_id}
                   </h3>
                   <p className="text-[11px] text-gray-400 mt-1 leading-snug">
-                    Khách hàng: <strong className="text-[#00e5ff]">{claimDetail.policyholder?.initials}</strong> ({claimDetail.policyholder?.age}T, {claimDetail.policyholder?.city}) · Hạng: <span className="text-[#b699ff] font-bold">{claimDetail.policyholder?.tier}</span> · Nguyên nhân: <span className="text-gray-300">{claimDetail.cause}</span> · Loại: <span className="text-gray-300 font-bold font-mono">{claimDetail.claim_type}</span>
+                    Customer: <strong className="text-[#00e5ff]">{claimDetail.policyholder?.initials}</strong> ({claimDetail.policyholder?.age}yo, {claimDetail.policyholder?.city}) · Tier: <span className="text-[#b699ff] font-bold">{claimDetail.policyholder?.tier}</span> · Cause: <span className="text-gray-300">{claimDetail.cause}</span> · Type: <span className="text-gray-300 font-bold font-mono">{claimDetail.claim_type}</span>
                   </p>
                 </div>
 
