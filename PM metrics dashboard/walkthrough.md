@@ -51,3 +51,18 @@ I have successfully implemented, verified, and integrated the v1.2 UAT redesign 
   - Wired `showAiInsight` to toggle the visibility of the bottom AI Anomaly Cards section.
 * **Sync & Build Verification**: Verified clean `npm run build` compilation on both Desktop and Documents directories.
 
+---
+
+## 5. Live Production Fixes & Governance Log Integration
+* **Vercel Backend API Deployment**: 
+  - Deployed the FastAPI backend to Vercel at `https://prudential-pmm-metrics-api.vercel.app`.
+  - Added a root `requirements.txt` to enable correct Python package installation (`fastapi`, `uvicorn`, `httpx`, `pydantic`).
+  - Resolved the `strategic` tab loading error by verifying connection queries and loading claims metadata successfully.
+* **Governance Log Integration (`GovernanceDashboard.tsx`, `main.py`, `App.tsx`)**:
+  - Activated the formerly disabled "Governance Log" tab on the sidebar.
+  - Added a new `GET /api/logs` backend endpoint that exposes the in-memory queue of recent AI audit logs (anomaly scans, Q&A chat runs, kill switch actions).
+  - Built a beautiful, executive-friendly Governance Log tab featuring policy cards (No Auto-Denial, Grounded Citations, Confidence Gates, Circular 09 Compliance) and an auditable entry timeline with action/confidence details.
+  - Excluded the bottom aggregate metrics strip when viewing the Governance tab.
+* **GitHub Repository Sync**: Pushed the updated codebase, sync configuration, and build configurations to the GitHub repository [janethaingo1/pm-metrics-dashboard](https://github.com/janethaingo1/pm-metrics-dashboard).
+
+
