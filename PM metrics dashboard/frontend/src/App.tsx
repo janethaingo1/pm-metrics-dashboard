@@ -3,9 +3,10 @@ import './App.css';
 import { ExecutiveDashboard } from './components/ExecutiveDashboard';
 import { OperationsDashboard } from './components/OperationsDashboard';
 import { LiveMonitorDashboard } from './components/LiveMonitorDashboard';
+import { GovernanceDashboard } from './components/GovernanceDashboard';
 
 function App() {
-  const [currentTab, setCurrentTab] = useState<'overview' | 'deepdive' | 'live'>('overview');
+  const [currentTab, setCurrentTab] = useState<'overview' | 'deepdive' | 'live' | 'governance'>('overview');
   const [aiLayerEnabled, setAiLayerEnabled] = useState(true);
   const [claims, setClaims] = useState<any[]>([]);
   const [selectedClaimId, setSelectedClaimId] = useState('');
@@ -184,10 +185,14 @@ function App() {
             <span>Live Ops Monitor</span>
           </div>
 
-          {/* Governance Log (disabled) */}
+          {/* Governance Log */}
           <div
-            className="flex items-center gap-3 px-3 py-2.5 rounded-[var(--radius)] font-semibold text-[13.5px] text-[var(--muted)] opacity-50 cursor-not-allowed"
-            title="Governance Log - Coming Soon"
+            onClick={() => setCurrentTab('governance')}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-[var(--radius)] font-semibold text-[13.5px] cursor-pointer transition-all ${
+              currentTab === 'governance'
+                ? 'bg-[var(--active-bg)] text-[var(--blue)]'
+                : 'text-[var(--muted)] hover:bg-[var(--line-soft)] hover:text-[var(--ink)]'
+            }`}
           >
             <i data-lucide="shield-check" className="w-[18px] h-[18px]"></i>
             <span>Governance Log</span>
@@ -260,11 +265,13 @@ function App() {
               {currentTab === 'overview' && 'Executive Scorecard'}
               {currentTab === 'deepdive' && 'Strategic Operations Hub'}
               {currentTab === 'live' && 'Operations Monitoring Hub'}
+              {currentTab === 'governance' && 'Governance Audit Center'}
             </h1>
             <div className="text-[11.5px] text-[var(--muted)] font-medium mt-1">
               {currentTab === 'overview' && `Week 24 · 16–22 Jun 2026 · ${periodData.period_context?.total_claims_this_week || 47} claims processed`}
               {currentTab === 'deepdive' && `Strategic Deep Dive into Claim Rules and Exceptions — Active initials: ${activeClaim?.policyholder?.initials || 'None'}`}
               {currentTab === 'live' && 'Real-time Claims Ingestion & Triage Queue Stream'}
+              {currentTab === 'governance' && 'Compliance Guardrails, Admin Actions, and Audit Trail Logs'}
             </div>
           </div>
 
@@ -342,12 +349,13 @@ function App() {
                 />
               )}
               {currentTab === 'live' && <LiveMonitorDashboard />}
+              {currentTab === 'governance' && <GovernanceDashboard />}
             </div>
           )}
         </main>
 
         {/* Global Platform Metrics Strip at Bottom (Shared across Overview/Live) */}
-        {currentTab !== 'deepdive' && !loading && (
+        {currentTab !== 'deepdive' && currentTab !== 'governance' && !loading && (
           <footer className="h-10 bg-[var(--surface)] border-t border-[var(--line)] flex items-center px-4 overflow-x-auto select-none shrink-0 font-mono text-[9px] text-[var(--muted)] gap-5 whitespace-nowrap scrollbar-none">
             {/* Revenue */}
             <div className="flex items-center gap-3 border-r border-[var(--line)] pr-3">

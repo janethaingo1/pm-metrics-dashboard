@@ -27,7 +27,7 @@
     },
     "avg_settlement_days_simple": 3.2,
     "avg_settlement_days_complex": 18.5,
-    "stp_rate_pct": 64,
+    "stp_rate_pct": 0.64,
     "_consistency_note": "STP 64% supports avg simple settlement 3.2d. If STP drops to 40%, settlement rises to 5.5-6d typically."
   },
   "scenarios": [
@@ -174,8 +174,8 @@
         },
         "reserve_vnd": {
           "actual": 800000000,
-          "target_band_low": 750000000,
-          "target_band_high": 850000000,
+          "target_band_low": 744000000,
+          "target_band_high": 856000000,
           "variance_from_band_mid_pct": 0.0,
           "ifrs17_csm_impact": "release_on_payment",
           "source_ref": "IFRS17-CSM",
@@ -200,19 +200,19 @@
       },
       "highlights_and_actions": {
         "key_highlights": [
-          "Standard natural-death claim, all metrics within healthy band",
-          "Cost per claim 920K VND, ~8% below portfolio mean — efficient processing",
-          "No anomalies fire — confirms baseline thresholds aren't generating false positives"
+          "Mr. T.V.B. claim processed automatically in 1.8d (target <3d).",
+          "Zero anomalies, flags, or exceptions triggered.",
+          "Reserve release on payment approved successfully."
         ],
         "watchouts": [
-          "Slight CES dip (4.1 vs 4.3 baseline) on document-upload step — same friction pattern as S2 but at lower magnitude. Monitor."
+          "Standard post-claim customer review scheduled."
         ],
         "follow_up_actions": [
           {
-            "owner": "Ops",
-            "action": "None required",
-            "due": "n/a",
-            "impact": "Control scenario"
+            "owner": "OPS",
+            "action": "Confirm electronic fund transfer receipt",
+            "due": "2026-06-19",
+            "impact": "LOW"
           }
         ]
       }
@@ -353,7 +353,9 @@
         "reserve_vnd": {
           "actual": 500000000,
           "ifrs17_csm_impact": "partial_release_on_decision",
-          "source_ref": "IFRS-17"
+          "source_ref": "IFRS-17",
+          "target_band_low": 465000000,
+          "target_band_high": 535000000
         },
         "exception_rate_pct": {
           "actual": 28.0,
@@ -601,7 +603,10 @@
           "variance_pct": -100,
           "reason_for_block": "SIU_INVESTIGATION_HOLD",
           "source_ref": "FINTECH-BA-RETENTION",
-          "note": "Standard claims convert ~35% to bundle; SIU cases gated until cleared"
+          "note": "Standard claims convert ~35% to bundle; SIU cases gated until cleared",
+          "actual_display_text": "Disabled · would be 35% baseline",
+          "baseline_eligibility_pct": 35,
+          "reason": "Disabled · would be 35% baseline (Under fraud investigation)"
         },
         "clv_update_pct": {
           "actual": null,
@@ -610,8 +615,8 @@
         },
         "reserve_vnd": {
           "actual": 2000000000,
-          "target_band_low": 1800000000,
-          "target_band_high": 2200000000,
+          "target_band_low": 1860000000,
+          "target_band_high": 2140000000,
           "variance_from_band_mid_pct": 0.0,
           "ifrs17_csm_impact": "onerous_contract_flag",
           "source_ref": "IFRS17-CSM",
@@ -632,8 +637,8 @@
           "level": "RED",
           "metric": "fraud_score",
           "title": "High fraud risk · auto-routed to SIU",
-          "root_cause": "Composite score 0.78 driven by 5 red flags: recent policy issuance, recent beneficiary change, scene inconsistency, sum insured anomaly, off-hours filing",
-          "recommendation": "Hold payment. Escalate to Special Investigation Unit. Notify reinsurance partner per treaty clause 4.2",
+          "root_cause": "Routed to Special Investigation Unit. AI redacts policyholder identifiers in display per data-protection guardrails. SIU staff access full identity via separate authenticated path.",
+          "recommendation": "This is what real production looks like — AI surfaces fraud risk WITHOUT exposing PII to dashboard users. Authorization separation is by design.",
           "confidence_pct": 94,
           "source_claims": [
             "CLM-LIFE-2026-001923"
@@ -656,32 +661,26 @@
       },
       "highlights_and_actions": {
         "key_highlights": [
-          "Fraud score 0.78 driven by 5 composite signals — exceeds 0.60 SIU threshold cleanly",
-          "Speed of fraud detection (<1 day) vs traditional manual review (3-5 days) is the demo signal",
-          "Regulatory hook fires automatically: SBV Circular 09 Article 14 reporting flagged"
+          "High fraud risk detected (score 0.78) auto-routed to SIU.",
+          "5 red flags triggered, including beneficiary change & off-hours filing.",
+          "Full policyholder name redacted per Circular 09 to protect PII."
         ],
         "watchouts": [
-          "False positive risk: 1 in ~6 SIU-routed cases turns out legitimate. Need human review override path documented.",
-          "Reinsurance treaty 4.2 notification adds 24h to total cycle time — acceptable for SIU cases but should not become default"
+          "Reinsurance notification required if fraud confirmed.",
+          "Circular 09 compliance warning active on fraud case."
         ],
         "follow_up_actions": [
           {
-            "owner": "Risk",
-            "action": "SIU investigation initiated",
-            "due": "started",
-            "impact": "Standard 7-14 day cycle"
+            "owner": "SIU",
+            "action": "Investigate sum insured vs prior policy premium",
+            "due": "2026-06-19",
+            "impact": "HIGH"
           },
           {
-            "owner": "Compliance",
-            "action": "Pre-draft SBV report contingent on outcome",
-            "due": "before decision",
-            "impact": "Removes 2-day delay post-confirmation"
-          },
-          {
-            "owner": "Legal",
-            "action": "Reinsurance treaty 4.2 notification queued",
-            "due": "within 24h",
-            "impact": "Treaty compliance"
+            "owner": "COMP",
+            "action": "Prepare SBV Circular 09 notification template",
+            "due": "2026-06-21",
+            "impact": "MEDIUM"
           }
         ]
       }
@@ -827,8 +826,8 @@
         },
         "reserve_vnd": {
           "actual": 1500000000,
-          "target_band_low": 1400000000,
-          "target_band_high": 1600000000,
+          "target_band_low": 1395000000,
+          "target_band_high": 1605000000,
           "variance_from_band_mid_pct": 0.0,
           "ifrs17_csm_impact": "extended_release_period",
           "source_ref": "IFRS17-CSM",
@@ -875,23 +874,8 @@
         },
         {
           "level": "RED",
-          "metric": "clv_update_pct",
-          "title": "Commercial signal · CLV erosion -15%",
-          "root_cause": "Per Bain renewal study, dissatisfied claim experience drops renewal probability by 17pp. CLV impact -15% ≈ 10.5M VND expected lifetime revenue at risk per customer in this profile.",
-          "recommendation": "Customer recovery protocol immediately. Even partial recovery (CSAT lift from 3.2 to 3.8) reclaims ~50% of CLV erosion per Bain delta.",
-          "confidence_pct": 84,
-          "source_claims": [
-            "CLM-LIFE-2026-001755"
-          ],
-          "methodology_refs": [
-            "BAIN-RENEWAL-CLAIM",
-            "TOWERS-WATSON-CLV"
-          ]
-        },
-        {
-          "level": "AMBER",
           "metric": "csat",
-          "title": "CSAT below threshold",
+          "title": "CSAT critical — below threshold",
           "root_cause": "4 support tickets raised by claimant, avg TAT 8h. Frustration with documentation back-and-forth.",
           "recommendation": "Assign dedicated case manager. Proactive daily status updates to claimant.",
           "confidence_pct": 88,
@@ -900,6 +884,20 @@
           ],
           "methodology_refs": [
             "HANSA-CUES-2026"
+          ]
+        },
+        {
+          "level": "RED",
+          "metric": "ces",
+          "title": "CES critical — below threshold",
+          "root_cause": "Actual 2.8 < 3.6 RED threshold. Prolonged TAT and friction with additional medical records step causing claimant effort frustration.",
+          "recommendation": "Simplify documentation process. Reduce document re-requests.",
+          "confidence_pct": 85,
+          "source_claims": [
+            "CLM-LIFE-2026-001755"
+          ],
+          "methodology_refs": [
+            "FORRESTER-CX"
           ]
         },
         {
@@ -935,8 +933,7 @@
         ],
         "watchouts": [
           "If churn-after-payout pattern holds across 40+ complex CI claims/year, that's 320-480M VND annual CLV erosion",
-          "Cost per claim 2.8M VND is 2.8x portfolio mean — escalation overhead drives this",
-          "Quality score 91% on the platform release coincides with this case being mishandled - investigate correlation"
+          "Cost per claim 2.8M VND is 2.8x portfolio mean — escalation overhead drives this"
         ],
         "follow_up_actions": [
           {
@@ -993,7 +990,8 @@
       "APPSFLYER-VN-FINTECH"
     ],
     "adoption_nps_claims_segment": 38,
-    "_compliance_gap_note": "Compliance not 100% because: VNDPPA data subject rights workflow gaps (-3pts), IFRS17 disclosure depth gaps (-2pts), pending SBV audit findings (-1pt). Tile tooltip should explain this."
+    "_compliance_gap_note": "VNDPPA workflow gaps (-3), IFRS17 disclosure (-2), pending SBV audit (-1)",
+    "quality_score": 91
   },
   "v12_changes": [
     "S1 realism adjustment (was too perfect)",

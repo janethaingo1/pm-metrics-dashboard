@@ -132,6 +132,8 @@ SOURCE_REFS: dict[str, dict] = {
 }
 
 # ── AI Audit Log ──────────────────────────────────────────────────────
+recent_logs = []
+
 def _log_ai_decision(entry_type: str, data: dict) -> None:
     """Append to ai_decisions.log as JSONL."""
     log_entry = {
@@ -139,6 +141,9 @@ def _log_ai_decision(entry_type: str, data: dict) -> None:
         "type": entry_type,
         **data,
     }
+    recent_logs.append(log_entry)
+    if len(recent_logs) > 100:
+        recent_logs.pop(0)
     try:
         with open(AI_LOG_PATH, "a") as f:
             f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
@@ -289,6 +294,12 @@ def get_period():
         "period_context": store.get("period_context", {}),
         "platform_metrics": store.get("platform_metrics", {}),
     }
+
+
+@app.get("/api/logs")
+def get_logs():
+    """Return the recent AI governance audit logs."""
+    return {"logs": recent_logs, "count": len(recent_logs)}
 
 
 @app.post("/api/nlp")

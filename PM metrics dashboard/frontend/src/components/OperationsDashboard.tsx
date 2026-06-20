@@ -55,7 +55,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
   useEffect(() => {
     if (!selectedClaimId) return;
     setLoading(true);
-    fetch(`http://localhost:8080/api/claims/${selectedClaimId}`)
+    fetch(`https://prudential-pmm-metrics-api.vercel.app/api/claims/${selectedClaimId}`)
       .then(res => res.json())
       .then(data => { setClaimDetail(data); setLoading(false); })
       .catch(err => { console.error(err); setLoading(false); });
@@ -64,7 +64,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
   useEffect(() => {
     if (!selectedClaimId) return;
     if (aiLayerEnabled) {
-      fetch(`http://localhost:8080/api/anomalies/${selectedClaimId}`)
+      fetch(`https://prudential-pmm-metrics-api.vercel.app/api/anomalies/${selectedClaimId}`)
         .then(res => res.json())
         .then(data => setAnomalies(data.anomalies || []))
         .catch(() => setAnomalies([]));
@@ -86,10 +86,6 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
   useEffect(() => { chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [chatHistory, chatLoading]);
 
   const formatVND = (v: number | undefined) => v ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(v).replace('₫', 'VND') : 'N/A';
-  const formatPercent = (value: number | undefined) => {
-    if (value === undefined || value === null) return 'N/A';
-    return `${(Math.abs(value) > 1 ? value : value * 100).toFixed(0)}%`;
-  };
   
   const getMetricClass = (_k: string, valObj: any) => {
     if (!valObj) return 'border-white/10';
@@ -111,13 +107,13 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
     if (!valObj) return 'N/A';
     if (valObj.actual === null) return <span className="text-gray-500 text-xs italic">{valObj.note || 'Not measured'}</span>;
     let valStr = `${valObj.actual}`;
-    if (key.includes('pct') || key.includes('compliance') || key === 'fraud_score') valStr = formatPercent(valObj.actual);
+    if (key.includes('pct') || key.includes('compliance')) valStr = `${(valObj.actual * 100).toFixed(0)}%`;
     else if (key.includes('vnd')) valStr = formatVND(valObj.actual);
     return (
       <span className="text-body-lg font-bold text-on-surface mt-1 flex flex-col gap-0.5">
         <span>
           {valStr}
-        {valObj.target && <span className="text-xs text-gray-400 font-normal ml-2">(T: {key.includes('pct') || key.includes('compliance') || key === 'fraud_score' ? formatPercent(valObj.target) : valObj.target})</span>}
+          {valObj.target && <span className="text-xs text-gray-400 font-normal ml-2">(T: {key.includes('pct') ? `${(valObj.target*100).toFixed(0)}%` : valObj.target})</span>}
         </span>
         {key === 'fraud_score' && valObj.actual >= 0.60 && (
           <span className="self-start text-[8px] font-bold bg-[#ffaa00]/10 text-[#ffaa00] border border-[#ffaa00]/30 px-1.5 py-0.5 rounded uppercase tracking-wider mt-1">
@@ -132,14 +128,14 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
     if (!claim || !claim.metrics) return 'N/A';
     const m = claim.metrics[metricKey];
     if (!m || m.actual === undefined || m.actual === null) return 'N/A';
-    if (metricKey.includes('pct') || metricKey.includes('compliance') || metricKey === 'fraud_score' || metricKey === 'csat' || metricKey === 'ces' || metricKey === 'dropoff_pct' || metricKey === 'pct_manual_intervention' || metricKey === 'clv_update_pct') {
+    if (metricKey.includes('pct') || metricKey.includes('compliance') || metricKey === 'csat' || metricKey === 'ces' || metricKey === 'dropoff_pct' || metricKey === 'pct_manual_intervention' || metricKey === 'clv_update_pct') {
       if (metricKey === 'csat' || metricKey === 'ces') {
         return `${m.actual.toFixed(1)} / 5.0`;
       }
       if (metricKey === 'clv_update_pct') {
-        return `${m.actual > 0 ? '+' : ''}${m.actual.toFixed(0)}%`;
+        return `${m.actual > 0 ? '+' : ''}${(m.actual * 100).toFixed(0)}%`;
       }
-      return formatPercent(m.actual);
+      return `${(m.actual * 100).toFixed(0)}%`;
     }
     if (metricKey.includes('vnd') || metricKey.includes('cost_per_claim_vnd') || metricKey.includes('reserve_vnd')) {
       return formatVND(m.actual);
@@ -154,14 +150,14 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
     if (!claim || !claim.metrics) return 'N/A';
     const m = claim.metrics[metricKey];
     if (!m || m.target === undefined || m.target === null) return 'N/A';
-    if (metricKey.includes('pct') || metricKey.includes('compliance') || metricKey === 'fraud_score' || metricKey === 'csat' || metricKey === 'ces' || metricKey === 'dropoff_pct' || metricKey === 'pct_manual_intervention' || metricKey === 'clv_update_pct') {
+    if (metricKey.includes('pct') || metricKey.includes('compliance') || metricKey === 'csat' || metricKey === 'ces' || metricKey === 'dropoff_pct' || metricKey === 'pct_manual_intervention' || metricKey === 'clv_update_pct') {
       if (metricKey === 'csat' || metricKey === 'ces') {
         return `${m.target.toFixed(1)}`;
       }
       if (metricKey === 'clv_update_pct') {
-        return `${m.target.toFixed(0)}%`;
+        return `${(m.target * 100).toFixed(0)}%`;
       }
-      return formatPercent(m.target);
+      return `${(m.target * 100).toFixed(0)}%`;
     }
     if (metricKey.includes('vnd') || metricKey.includes('cost_per_claim_vnd') || metricKey.includes('reserve_vnd')) {
       return formatVND(m.target);
@@ -279,7 +275,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
     }
     const q = chatInput; setChatHistory(p => [...p, { sender: 'user', text: q }]); setChatInput(''); setChatLoading(true);
     try {
-      const res = await fetch('http://localhost:8080/api/nlp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: q }) });
+      const res = await fetch('https://prudential-pmm-metrics-api.vercel.app/api/nlp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: q }) });
       const d = await res.json();
       setQueryCount(p => p + 1);
       setChatHistory(p => [...p, aiLayerEnabled ? { sender: 'system', text: d.answer, confidence: d.confidence_pct, citations: d.source_claims } : { sender: 'system', text: 'NLP Engine offline: AI layer disabled.' }]);
@@ -359,7 +355,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
                     <div className={`bg-[#050514]/40 border rounded p-2.5 flex flex-col justify-between ${getMetricClass('api_success_latency', m.api_success_pct)}`}>
                       {getMetricHeader('api_success_latency', 'API Success/Lat')}
                       <span className="text-body-md font-bold text-on-surface mt-1">
-                        {m.api_success_pct?.actual ? formatPercent(m.api_success_pct.actual) : 'N/A'} / {m.api_latency_ms?.actual ? `${m.api_latency_ms.actual}ms` : 'N/A'}
+                        {m.api_success_pct?.actual ? `${(m.api_success_pct.actual * 100).toFixed(0)}%` : 'N/A'} / {m.api_latency_ms?.actual ? `${m.api_latency_ms.actual}ms` : 'N/A'}
                       </span>
                     </div>
                   </div>
@@ -492,7 +488,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
                       {a.regulatory_note && <p className="text-[10px] text-[#ffaa00] font-semibold leading-tight mt-1 border-t border-[#ffaa00]/20 pt-1">⚠️ SBV compliance: {a.regulatory_note}</p>}
                       {a.manual_intervention_context && (
                         <div className="mt-1 bg-[#ffaa00]/5 border border-[#ffaa00]/20 p-1.5 rounded text-[10px] text-gray-400 font-mono">
-                          <strong>Manual Context:</strong> {formatPercent(a.manual_intervention_context.actual)} vs target {formatPercent(a.manual_intervention_context.target)} ({a.manual_intervention_context.note})
+                          <strong>Manual Context:</strong> {(a.manual_intervention_context.actual * 100).toFixed(0)}% vs target {(a.manual_intervention_context.target * 100).toFixed(0)}% ({a.manual_intervention_context.note})
                         </div>
                       )}
                       <div className="text-[9px] font-mono text-gray-500 mt-1 flex justify-between items-center">
