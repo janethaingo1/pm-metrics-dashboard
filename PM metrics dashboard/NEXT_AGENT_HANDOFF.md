@@ -9,7 +9,7 @@
 | `backend/data.py` | Loads `mock_claims_uat.json` into memory |
 | `backend/anomalies.py` | Anomaly engine — reads UAT `expected_anomalies` from mock JSON |
 | `backend/uat_regression_check.py` | Regression guard for Jane's 2026-06-17 logic updates |
-| `backend/nlp.py` | NLP Q&A — DeepSeek v4-flash with fallback |
+| `backend/nlp.py` | NLP Q&A — optional DeepSeek via `DEEPSEEK_API_KEY`, offline fallback for UAT |
 | `backend/requirements.txt` | `fastapi`, `uvicorn`, `httpx` |
 | `ai_decisions.log` | Audit log (JSONL) |
 | `DEBUG_LOG.md` | Bug log (empty) |
@@ -32,7 +32,7 @@
 | S1 (001500) | 0 alerts | ✅ 0 |
 | S2 (001847) | 3 AMBER (Manual, SLA, CES) | ✅ 3 AMBER |
 | S3 (001923) | 1 RED (fraud_score) | ✅ 1 RED |
-| S4 (001755) | 4 RED (TAT, SLA, CSAT, CES) + 1 AMBER (Manual) | ✅ 4 RED + 1 AMBER |
+| S4 (001755) | RED TAT, RED SLA, RED CLV erosion, AMBER CSAT, AMBER Manual | ✅ 3 RED + 2 AMBER |
 
 ### Regression command
 ```bash
@@ -40,7 +40,7 @@ cd "/Users/thaingo/Documents/Prudential/PM metrics dashboard"
 python3 backend/uat_regression_check.py
 ```
 
-Expected output: `updated UAT regression checks passed`
+Expected output: `updated UAT/security regression checks passed`
 
 ### How to run
 ```bash
@@ -73,4 +73,7 @@ python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8080
 - S3 fraud = primary RED alert
 - S3 manual-intervention context is supporting explanation on the fraud card, not a separate anomaly
 - Claim type is explicit: `claim_type: simple | complex`
-- S4 final alert set is 4 RED (`tat_days`, `sla_compliance`, `csat`, `ces`) + 1 AMBER (`pct_manual_intervention`)
+- S4 final alert set from `mock_claims_uat.json` v1.2 generated `2026-06-17T10:00:00Z` is RED `tat_days`, RED `sla_compliance`, RED `clv_update_pct`, AMBER `csat`, AMBER `pct_manual_intervention`.
+- Do not embed API keys in source. Use `DEEPSEEK_API_KEY` only when live NLP is needed.
+- `AI_LAYER_ENABLED=false` is honored at backend startup and by `/api/killswitch`.
+- Every fallback NLP answer must return non-empty `source_claims`.

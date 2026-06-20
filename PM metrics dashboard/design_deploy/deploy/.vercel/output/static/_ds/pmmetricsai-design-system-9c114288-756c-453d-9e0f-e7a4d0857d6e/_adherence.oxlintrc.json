@@ -1,0 +1,298 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/ai/**",
+              "components/core/**",
+              "components/data-display/**",
+              "ui_kits/pmmetricsai/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Inter))/i]",
+        "message": "Font not provided by the design system. Available: Inter."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='AnomalyCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:level|metric|title|confidence|why|action|actual|target|sources|regulatory|style|key|ref|className|style|children)$/]",
+        "message": "<AnomalyCard> doesn't accept that prop. Declared props: level, metric, title, confidence, why, action, actual, target, sources, regulatory, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='AnomalyCard'] > JSXAttribute[name.name='level'] > Literal[value!=/^(?:RED|AMBER|INFO)$/]",
+        "message": "<AnomalyCard> level must be one of 'RED' | 'AMBER' | 'INFO'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|size|disabled|leadingIcon|trailingIcon|onClick|type|children|style|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: variant, size, disabled, leadingIcon, trailingIcon, onClick, type, children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|secondary|ghost)$/]",
+        "message": "<Button> variant must be one of 'primary' | 'secondary' | 'ghost'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md|lg)$/]",
+        "message": "<Button> size must be one of 'sm' | 'md' | 'lg'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='type'] > Literal[value!=/^(?:button|submit|reset)$/]",
+        "message": "<Button> type must be one of 'button' | 'submit' | 'reset'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MetricCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|value|target|variance|trend|status|icon|style|key|ref|className|style|children)$/]",
+        "message": "<MetricCard> doesn't accept that prop. Declared props: label, value, target, variance, trend, status, icon, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MetricCard'] > JSXAttribute[name.name='trend'] > Literal[value!=/^(?:up|down|flat)$/]",
+        "message": "<MetricCard> trend must be one of 'up' | 'down' | 'flat'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MetricCard'] > JSXAttribute[name.name='status'] > Literal[value!=/^(?:good|watch|escalate|neutral)$/]",
+        "message": "<MetricCard> status must be one of 'good' | 'watch' | 'escalate' | 'neutral'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StatusPill'] > JSXAttribute > JSXIdentifier[name!=/^(?:status|dot|children|style|key|ref|className|style|children)$/]",
+        "message": "<StatusPill> doesn't accept that prop. Declared props: status, dot, children, style."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "AnomalyCard": {
+        "replaces": []
+      },
+      "Button": {
+        "replaces": []
+      },
+      "MetricCard": {
+        "replaces": []
+      },
+      "StatusPill": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--accent-bar",
+      "--accent-finance",
+      "--accent-good",
+      "--accent-info",
+      "--accent-risk",
+      "--accent-watch",
+      "--active-bg",
+      "--active-border",
+      "--amber",
+      "--amber-bg",
+      "--bg",
+      "--blue",
+      "--blur-glass",
+      "--border-default",
+      "--border-width",
+      "--content-max",
+      "--dur-base",
+      "--dur-fast",
+      "--ease-standard",
+      "--figures-tabular",
+      "--font-mono",
+      "--font-sans",
+      "--gap-card",
+      "--gap-tile",
+      "--good-bg",
+      "--good-border",
+      "--green",
+      "--info-bg",
+      "--ink",
+      "--leading-normal",
+      "--leading-snug",
+      "--leading-tight",
+      "--line",
+      "--line-soft",
+      "--muted",
+      "--neutral-bg",
+      "--neutral-border",
+      "--on-accent",
+      "--pad-card",
+      "--pad-panel",
+      "--pad-tile",
+      "--purple",
+      "--radius",
+      "--radius-lg",
+      "--radius-pill",
+      "--radius-sm",
+      "--red",
+      "--risk-bg",
+      "--shadow-card",
+      "--shadow-none",
+      "--shadow-pop",
+      "--side-column",
+      "--sidebar-width",
+      "--space-1",
+      "--space-10",
+      "--space-2",
+      "--space-3",
+      "--space-4",
+      "--space-5",
+      "--space-6",
+      "--space-7",
+      "--space-8",
+      "--surface",
+      "--surface-alt",
+      "--surface-card",
+      "--surface-input",
+      "--surface-sunken",
+      "--text-action",
+      "--text-base",
+      "--text-body",
+      "--text-eyebrow",
+      "--text-h1",
+      "--text-h2",
+      "--text-h3",
+      "--text-lg",
+      "--text-metric",
+      "--text-muted",
+      "--text-sm",
+      "--text-strong",
+      "--text-value",
+      "--text-xs",
+      "--tracking-eyebrow",
+      "--tracking-flush",
+      "--watch-bg",
+      "--watch-border",
+      "--weight-black",
+      "--weight-bold",
+      "--weight-medium",
+      "--weight-regular",
+      "--weight-semibold"
+    ],
+    "tokenKinds": {
+      "--bg": "color",
+      "--surface": "color",
+      "--surface-alt": "color",
+      "--surface-sunken": "color",
+      "--ink": "color",
+      "--muted": "color",
+      "--line": "color",
+      "--line-soft": "color",
+      "--blue": "color",
+      "--green": "color",
+      "--amber": "color",
+      "--red": "color",
+      "--purple": "color",
+      "--good-bg": "color",
+      "--good-border": "color",
+      "--watch-bg": "color",
+      "--watch-border": "color",
+      "--neutral-bg": "color",
+      "--neutral-border": "color",
+      "--risk-bg": "color",
+      "--amber-bg": "color",
+      "--info-bg": "color",
+      "--active-bg": "color",
+      "--active-border": "color",
+      "--text-strong": "font",
+      "--text-body": "font",
+      "--text-muted": "font",
+      "--text-action": "font",
+      "--surface-card": "color",
+      "--surface-input": "color",
+      "--border-default": "color",
+      "--accent-good": "color",
+      "--accent-watch": "color",
+      "--accent-risk": "color",
+      "--accent-info": "color",
+      "--accent-finance": "color",
+      "--on-accent": "color",
+      "--font-sans": "font",
+      "--font-mono": "font",
+      "--text-h1": "font",
+      "--text-h2": "font",
+      "--text-h3": "font",
+      "--text-metric": "font",
+      "--text-value": "font",
+      "--text-lg": "font",
+      "--text-base": "font",
+      "--text-sm": "font",
+      "--text-xs": "font",
+      "--text-eyebrow": "font",
+      "--weight-regular": "font",
+      "--weight-medium": "font",
+      "--weight-semibold": "font",
+      "--weight-bold": "font",
+      "--weight-black": "font",
+      "--leading-tight": "font",
+      "--leading-snug": "font",
+      "--leading-normal": "font",
+      "--tracking-eyebrow": "font",
+      "--tracking-flush": "font",
+      "--figures-tabular": "other",
+      "--space-1": "spacing",
+      "--space-2": "spacing",
+      "--space-3": "spacing",
+      "--space-4": "spacing",
+      "--space-5": "spacing",
+      "--space-6": "spacing",
+      "--space-7": "spacing",
+      "--space-8": "spacing",
+      "--space-10": "spacing",
+      "--gap-tile": "spacing",
+      "--gap-card": "spacing",
+      "--pad-panel": "spacing",
+      "--pad-card": "spacing",
+      "--pad-tile": "spacing",
+      "--sidebar-width": "spacing",
+      "--side-column": "spacing",
+      "--content-max": "spacing",
+      "--radius-sm": "radius",
+      "--radius": "radius",
+      "--radius-lg": "radius",
+      "--radius-pill": "radius",
+      "--border-width": "spacing",
+      "--accent-bar": "spacing",
+      "--shadow-card": "shadow",
+      "--shadow-pop": "shadow",
+      "--shadow-none": "shadow",
+      "--blur-glass": "spacing",
+      "--ease-standard": "other",
+      "--dur-fast": "other",
+      "--dur-base": "other"
+    },
+    "fontFamilies": [
+      "Inter"
+    ]
+  }
+}

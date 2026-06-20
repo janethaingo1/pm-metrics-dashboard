@@ -54,7 +54,7 @@ PM spends 3–5 hours/week aggregating Life Claims metrics from 6–8 platforms.
 | Mock claim dataset (4 scenarios) | Claude | Ready Day 1 EOD |
 | Validation rules + thresholds | Claude | Ready Day 1 EOD |
 | AGENTS.md master | Claude | Ready Day 1 EOD |
-| Anthropic API access for NLP layer | OpenClaw config | Day 1 PM |
+| Optional DeepSeek API access for live NLP; offline fallback supports UAT without provider key | OpenClaw / backend config | Day 1 PM |
 | Wireframe sketch | Jane | Day 1 PM |
 
 ## 8. Risks & assumptions

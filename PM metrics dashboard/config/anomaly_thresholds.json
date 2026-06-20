@@ -1,0 +1,20 @@
+{
+  "comment": "Thresholds from validation_rules.md § A. Values: green->amber->red boundary.",
+  "thresholds": {
+    "tat_days_simple": { "green": 3, "amber": 5, "unit": "days" },
+    "tat_days_complex": { "green": 15, "amber": 30, "unit": "days" },
+    "pct_manual_intervention": { "green": 0.25, "amber": 0.30, "unit": "pct" },
+    "sla_compliance": { "green": 0.95, "amber": 0.90, "unit": "pct" },
+    "fraud_score": { "green": 0.60, "amber": 0.65, "unit": "score" },
+    "csat": { "green": 4.2, "amber": 4.0, "unit": "score" },
+    "ces": { "green": 4.0, "amber": 3.6, "unit": "score" },
+    "dropoff_pct": { "green": 0.10, "amber": 0.25, "unit": "pct" },
+    "exception_rate_pct": { "green": 0.05, "amber": 0.10, "unit": "pct" },
+    "api_success_pct": { "green": 0.97, "amber": 0.95, "unit": "pct" },
+    "api_latency_ms": { "green": 200, "amber": 300, "unit": "ms" },
+    "cross_sell_ratio": { "green": 1.5, "amber": 1.2 }
+  },
+  "hysteresis": { "consecutive_measurements_required": 2, "recovery_measurements_required": 3 },
+  "correlation": { "enabled": true, "shared_root_cluster": ["pct_manual_intervention", "sla_compliance"] },
+  "confidence_min": 70
+}

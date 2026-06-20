@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClaimMind AI — Neon Tokyo Dashboard Suite</title>
+    <!-- Material Symbols -->
+    <link href="/assets/a39f5c6fcbb87b419667ec984d2e579a.css" rel="stylesheet" />
+    <!-- Google Fonts: Sora & Fira Code -->
+    <link href="/assets/fa03c465ac2a6459c5449853e18e4674.css" rel="stylesheet" />
+    <!-- Tailwind CSS (Play CDN script copied from Astro) -->
+    <script src="/assets/03ba5d9f9e95fc3599acebcbe7e5fb9a.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary": "#ff2d78",
+              "on-primary": "#ffffff",
+              "primary-container": "#4a001a",
+              "on-primary-container": "#ffb3c6",
+              "secondary": "#ff2d78",
+              "on-secondary": "#ffffff",
+              "secondary-container": "#4a001a",
+              "on-secondary-container": "#ffb3c6",
+              "tertiary": "#00f0ff",
+              "on-tertiary": "#000000",
+              "tertiary-container": "#00404d",
+              "on-tertiary-container": "#b3fcff",
+              "error": "#ffaa00",
+              "on-error": "#000000",
+              "error-container": "#4d3300",
+              "on-error-container": "#ffe5b3",
+              "background": "#05050f",
+              "on-background": "#e2e8f0",
+              "surface": "#0a0a1a",
+              "on-surface": "#f8fafc",
+              "surface-variant": "#15152e",
+              "on-surface-variant": "#94a3b8",
+              "surface-container-lowest": "#05050f",
+              "surface-container-low": "#0a0a1a",
+              "surface-container": "#101026",
+              "surface-container-high": "#15152e",
+              "surface-container-highest": "#1a1a38",
+              "surface-bright": "#1a1a38",
+              "surface-dim": "#05050f",
+              "outline": "#334155",
+              "outline-variant": "#1e293b",
+              "primary-fixed": "#ffb3c6",
+              "primary-fixed-dim": "#ff80a3",
+              "on-primary-fixed": "#330012",
+              "on-primary-fixed-variant": "#660024",
+              "secondary-fixed": "#ffb3c6",
+              "secondary-fixed-dim": "#ff80a3",
+              "on-secondary-fixed": "#330012",
+              "on-secondary-fixed-variant": "#660024",
+              "tertiary-fixed": "#b3fcff",
+              "tertiary-fixed-dim": "#80faff",
+              "on-tertiary-fixed": "#00262e",
+              "on-tertiary-fixed-variant": "#004d5c",
+              "surface-tint": "#ff2d78",
+              "inverse-surface": "#e2e8f0",
+              "inverse-on-surface": "#0f172a",
+              "inverse-primary": "#990033",
+              "neon-pink": "#ff2d78",
+              "neon-blue": "#00f0ff",
+              "neon-green": "#39ff14",
+              "terminal-bg": "#050a14"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+            },
+            "spacing": {
+              "tightGap": "8px",
+              "containerPadding": "24px",
+              "componentGap": "12px",
+              "tableCellPadding": "8px 12px",
+              "inlinePadding": "12px 16px",
+              "gridGutter": "16px"
+            },
+            "fontFamily": {
+              "headline-lg": ["Sora", "sans-serif"],
+              "label-sm": ["Sora", "sans-serif"],
+              "body-md": ["Sora", "sans-serif"],
+              "display-metric": ["Sora", "sans-serif"],
+              "body-lg": ["Sora", "sans-serif"],
+              "headline-md": ["Sora", "sans-serif"],
+              "label-xs": ["Sora", "sans-serif"],
+              "display-metric-mobile": ["Sora", "sans-serif"],
+              "terminal": ["'Fira Code'", "monospace"]
+            },
+            "fontSize": {
+              "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+              "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+              "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+              "display-metric": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+              "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+              "headline-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+              "label-xs": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+              "display-metric-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .icon-fill {
+        font-variation-settings: 'FILL' 1;
+      }
+      
+      /* Neon Tokyo Glow Effects */
+      .border-outline-variant, .border-outline {
+        border-color: rgba(255, 45, 120, 0.2) !important;
+      }
+      .bg-surface-container-lowest, .bg-surface {
+        box-shadow: 0 0 15px rgba(255, 45, 120, 0.05);
+      }
+      .text-primary, .text-secondary {
+        text-shadow: 0 0 8px rgba(255, 45, 120, 0.4);
+      }
+      .bg-primary {
+        box-shadow: 0 0 12px rgba(255, 45, 120, 0.6);
+      }
+      
+      /* Custom scrollbar for clean look */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 45, 120, 0.3);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(255, 45, 120, 0.6);
+      }
+      
+      .pulse-dot {
+        animation: pulse-pink 2s infinite;
+      }
+      .pulse-error {
+        animation: pulse-red 1.5s infinite;
+      }
+      .glow-text-pink {
+        text-shadow: 0 0 8px rgba(255, 45, 120, 0.6);
+      }
+      .glow-text-blue {
+        text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+      }
+      .glow-border-pink {
+        box-shadow: 0 0 10px rgba(255, 45, 120, 0.3);
+        border-color: rgba(255, 45, 120, 0.5);
+      }
+      @keyframes pulse-pink {
+        0% { box-shadow: 0 0 0 0 rgba(255, 45, 120, 0.7); }
+        70% { box-shadow: 0 0 0 6px rgba(255, 45, 120, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 45, 120, 0); }
+      }
+      @keyframes pulse-red {
+        0% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0.7); }
+        70% { box-shadow: 0 0 0 8px rgba(255, 180, 171, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0); }
+      }
+      .terminal-grid {
+        background-image: linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-surface font-body-md text-body-md antialiased min-h-screen selection:bg-primary selection:text-on-primary">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 # AGENTS.md — PMMetricsAI Pilot
 
 > Single source of truth for Codex, Antigravity, and OpenClaw. Edit here only — sync propagates the rest.
-> Owner: Jane Ngo · Sprint: Jun 17–19, 2026 · Version: 1.0
+> Owner: Jane Ngo · Sprint: Jun 17–19, 2026 · Version: 1.2
 
 <!-- sync-ai:start -->
 
@@ -33,10 +33,11 @@ When uncertain, surface the uncertainty rather than guess. When debugging, propo
 - **Operations & Risk** (7): TAT, %Manual, Incidents, MTTD/MTTR, SLA, Fraud, Compliance Score
 - **Project Health** (8): On Time, Scope, Budget, Quality, Velocity, DORA Deploy/CFR/Lead Time
 
-### Per-claim view (12 main tiles + reserve)
-The 12 main per-claim tiles are: TAT, %Manual, SLA, Fraud, CSAT, CES, Dropoff, Tickets Volume, Tickets TAT, Cost/Claim, Cross-sell trigger, CLV update.
+### Per-claim view (14 tiles)
+The 14 per-claim tiles are: TAT, %Manual, SLA, Fraud, CSAT, CES, Dropoff, Support Tickets (Volume + TAT), Cost/Claim, Cross-sell, CLV Lift, Reserve, Exception Rate, API Success/Latency. The shared mock schema must still carry 18 per-claim metrics so backend, UI, OpenClaw, and Claude continue from the same data contract.
 
-`reserve_vnd` is not counted as one of the 12 main metric tiles. Show it separately as a Reserve / IFRS 17 tile or compliance panel.
+### Platform metrics strip (18 aggregate metrics)
+Show these aggregate metrics in the executive scan: Revenue from Platform, Growth Rate, ARPU, NRR, Adoption NPS, Retention D30, Retention D90, User Peak Time, User Segment, Incidents P1/P2/P3, MTTD, MTTR, Regulatory Compliance, Fraud Detection Ratio, Sprint Velocity, DORA Deploy/CFR/Lead Time, Project On Time/On Scope/On Budget, Quality Score.
 
 ### Industry KPI thresholds (anomaly triggers)
 | Metric | Green | Amber | Red |
@@ -76,6 +77,7 @@ Bug log entry format:
 - Every insight must cite `source_claims: [IDs]` it drew from (LLM04)
 - NLP user input sanitized — strip system-prompt markers before passing to Claude API (LLM01)
 - Every anomaly carries `confidence_pct` field (mandatory)
+- Metric values and anomaly confidence must use separate render helpers: metric display via `getMetricDisplayValue()`, confidence via `getConfidence()`.
 - Kill switch: env var `AI_LAYER_ENABLED=false` disables anomaly + NLP layers, dashboard falls back to raw metrics in ≤2s
 - Every AI output appended to `ai_decisions.log` with timestamp, prompt, response, confidence
 
@@ -114,7 +116,14 @@ Bug log entry format:
 - `uat_test_plan.md` — 4 scenarios + 5 NLP queries + acceptance checklist
 
 ### UI source package (Stitch)
-Jane selected the Stitch UI package as the visual source for implementation. Use the all-in-one bundle first:
+Jane selected the Stitch project as the visual source for implementation:
+
+- Live Stitch project: `https://stitch.withgoogle.com/projects/6325402822248126490`
+- Latest selected visual direction as of 2026-06-18: **Luminous Clarity** because Jane wants the UI easier to see and more executive-friendly.
+- Required screens: Luminous Clarity Executive Command Center, Luminous Clarity Strategic Operations Hub, Luminous Clarity Live Ops Monitor.
+- The current localhost UI verified on 2026-06-18 serves **PMMetricsAI — Luminous Clarity KPI Dashboard** from `/Users/thaingo/Documents/Prudential/PM metrics dashboard/frontend` on `http://localhost:5173/`.
+
+Older local Stitch exports remain available for reference:
 
 - Source zip: `stitch_exports/stitch_ai_governed_kpi_dashboard.zip`
 - Extracted source: `stitch_exports/source_bundle/stitch_ai_governed_kpi_dashboard/`
@@ -129,8 +138,10 @@ Screen mapping:
 Implementation guidance:
 
 - Treat the Stitch HTML/CSS/screenshots as the visual reference, not final app architecture.
-- Preserve the Neon Tokyo dark UI direction, but adapt the content to the agreed PMMetricsAI UAT claims, metrics, AI guardrails, and Vietnamese life insurance context.
+- Prefer the latest Luminous Clarity direction: lighter, cleaner, lower cognitive load, clearer hierarchy, less neon glow, better whitespace, stronger executive readability.
+- Keep AI governance visible but professional: AI layer toggle, advisory-only badge, citations/source claims, confidence, kill switch, and auditability should be present without overwhelming the dashboard.
 - Do not copy demo values from Stitch if they conflict with `mock_claims_uat.json`, `validation_rules.md`, `uat_test_plan.md`, or this AGENTS file.
+- If latest Luminous Clarity source code is not exported locally yet, use the live Stitch project as the visual reference and record the gap in `UI_LATEST_SYNC.md`.
 
 ### UAT scenarios (Day 3 testing)
 - **S1**: CLM-LIFE-2026-001500 — healthy baseline (control, zero anomalies)
@@ -156,5 +167,8 @@ Implementation guidance:
 - 2026-06-17 · Initial pilot setup. 3-day compressed plan. Mock data only.
 - 2026-06-17 · Jane clarified sync-AI decisions: reserve is separate from the 12 main tiles; S4 CSAT/CES are RED; S3 manual intervention is supporting context for fraud; special schemas are valid for cross-sell, CLV, and reserve; claim complexity must be explicit; pilot anomaly display follows UAT expected behavior.
 - 2026-06-17 · Jane provided the selected Stitch UI source package. Use `stitch_exports/stitch_ai_governed_kpi_dashboard.zip` and extracted `stitch_exports/source_bundle/stitch_ai_governed_kpi_dashboard/` as the preferred visual source for other agents.
+- 2026-06-17 · Jane updated the UI preference to the latest Stitch **Luminous Clarity** direction for easier readability. Sync docs must live inside `/Users/thaingo/Documents/Prudential/PM metrics dashboard/` so Codex, OpenClaw, Claude, and Antigravity agents start from the same folder and same UI target.
+- 2026-06-18 · Codex completed v1.1 implementation and self-check. Frontend is verified at `http://localhost:5173/`, backend health is verified at `http://localhost:8080/api/health`, `python3 backend/uat_regression_check.py` passes, `npm run build` passes, and NLP commercial-impact smoke test returns `source_claims`, `confidence_pct`, and `advisory_only: true`.
+- 2026-06-18 · Codex implemented v1.2 UAT fixes: metric/anomaly binding split, S2 3 AMBER + 1 INFO cards, inclusive threshold ordering, `/health`, Executive source chips/modal, scenario action panel, severity filters, NLP drawer/reset banner, hypothetical NLP fallback, human-review RED banner, updated fraud detection ratio/quality/compliance/velocity semantics, and LiveOps SIU redaction copy. Regression and frontend build pass.
 
 <!-- sync-ai:end -->

@@ -1,0 +1,28 @@
+/* PMMetricsAI — Spacing & layout tokens
+ * 4px-based rhythm. The dashboard packs high-density data, so gaps stay tight
+ * (12–18px between cards) and panels carry generous internal padding (18–22px).
+ */
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 10px;
+  --space-4: 12px;
+  --space-5: 14px;
+  --space-6: 18px;
+  --space-7: 22px;
+  --space-8: 24px;
+  --space-10: 32px;
+
+  /* Common composite gaps */
+  --gap-tile: 12px;     /* between metric/claim tiles */
+  --gap-card: 18px;     /* between panels */
+  --pad-panel: 18px;    /* panel inner padding */
+  --pad-card: 16px;     /* metric card inner padding */
+  --pad-tile: 13px;     /* claim tile inner padding */
+
+  /* Layout */
+  --sidebar-width: 280px;
+  --side-column: 390px;
+  --content-max: 700px; /* readable measure for hero statements */
+}

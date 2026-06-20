@@ -1,0 +1,7 @@
+/* PMMetricsAI — Webfonts
+ * Inter is the product typeface. Loaded from Google Fonts (the upstream source
+ * of the binaries) — no local font files ship with the codebase, so consumers
+ * pull Inter from the CDN below. Swap to self-hosted @font-face if offline use
+ * is required.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");

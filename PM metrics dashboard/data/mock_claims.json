@@ -28,7 +28,11 @@
     "avg_settlement_days_simple": 3.2,
     "avg_settlement_days_complex": 18.5,
     "stp_rate_pct": 64,
-    "_consistency_note": "STP 64% supports avg simple settlement 3.2d. If STP drops to 40%, settlement rises to 5.5-6d typically."
+    "_consistency_note": "STP 64% supports avg simple settlement 3.2d. If STP drops to 40%, settlement rises to 5.5-6d typically.",
+    "adoption_nps_claims_segment_value": 38,
+    "avg_settlement_simple_days": 3.2,
+    "avg_settlement_complex_days": 18.5,
+    "stp_rate_this_week": 0.64
   },
   "scenarios": [
     {
@@ -63,7 +67,9 @@
           "trend_7d": "stable",
           "anomaly": null,
           "source_ref": "LIMRA-STP-OPS",
-          "note": "Within healthy band"
+          "note": "Within healthy band",
+          "actual_display_pct": 21.0,
+          "target_display_pct": 30.0
         },
         "sla_compliance": {
           "actual": 0.96,
@@ -72,7 +78,9 @@
           "trend_7d": "stable",
           "anomaly": null,
           "source_ref": "LIMRA-SLA",
-          "note": "Just above target"
+          "note": "Just above target",
+          "actual_display_pct": 96.0,
+          "target_display_pct": 95.0
         },
         "fraud_score": {
           "actual": 0.11,
@@ -81,21 +89,27 @@
           "trend_7d": "stable",
           "anomaly": null,
           "source_ref": "CAIF-FRAUD",
-          "note": "Low risk natural death"
+          "note": "Low risk natural death",
+          "actual_display_pct": 11.0,
+          "target_display_pct": 30.0
         },
         "exception_rate_stp": {
           "actual": 0.15,
           "target": 0.3,
           "variance_pct": -50,
           "trend_7d": "stable",
-          "source_ref": "LIMRA-OPS"
+          "source_ref": "LIMRA-OPS",
+          "actual_display_pct": 15.0,
+          "target_display_pct": 30.0
         },
         "api_success_pct": {
           "actual": 99.8,
           "target": 99.5,
           "variance_pct": 0.3,
           "trend_7d": "stable",
-          "source_ref": "GOOGLE-SRE"
+          "source_ref": "GOOGLE-SRE",
+          "actual_display_pct": 99.8,
+          "target_display_pct": 99.5
         },
         "api_latency_ms": {
           "actual": 285,
@@ -136,7 +150,9 @@
           "trend_7d": "stable",
           "anomaly": null,
           "source_ref": "UX-INDUSTRY",
-          "note": "Normal abandonment band"
+          "note": "Normal abandonment band",
+          "actual_display_pct": 7.0,
+          "target_display_pct": 10.0
         },
         "tickets_volume": {
           "actual": 0,
@@ -164,13 +180,15 @@
         "cross_sell_eligible": {
           "actual": false,
           "reason": "Natural death, no surviving policyholder upgrade path",
-          "source_ref": "FINTECH-BA-§4.4"
+          "source_ref": "FINTECH-BA-§4.4",
+          "trend_7d": "stable"
         },
         "clv_update_pct": {
           "actual": 0,
           "target": null,
           "note": "Final claim, no renewal lift; CLV realized on payment",
-          "source_ref": "TOWERS-WATSON-CLV"
+          "source_ref": "TOWERS-WATSON-CLV",
+          "trend_7d": "stable"
         },
         "reserve_vnd": {
           "actual": 800000000,
@@ -179,7 +197,8 @@
           "variance_from_band_mid_pct": 0.0,
           "ifrs17_csm_impact": "release_on_payment",
           "source_ref": "IFRS17-CSM",
-          "note": "Reserve held at sum_at_risk; target band = IFRS 17 expected loss component"
+          "note": "Reserve held at sum_at_risk; target band = IFRS 17 expected loss component",
+          "trend_7d": "stable"
         },
         "exception_rate_pct": {
           "actual": 14.0,
@@ -187,7 +206,9 @@
           "variance_pct": -30,
           "trend_7d": "stable",
           "anomaly": null,
-          "source_ref": "LIMRA-CLAIMS-OPS"
+          "source_ref": "LIMRA-CLAIMS-OPS",
+          "actual_display_pct": 14.0,
+          "target_display_pct": 20.0
         }
       },
       "expected_anomalies": [],
@@ -215,7 +236,8 @@
             "impact": "Control scenario"
           }
         ]
-      }
+      },
+      "claim_type": "simple"
     },
     {
       "scenario_id": "S2_OPS_CLUSTER_PLUS_COMMERCIAL",
@@ -246,7 +268,9 @@
           "variance_pct": 27,
           "trend_7d": "up",
           "anomaly": "AMBER",
-          "source_ref": "LIMRA-OPS"
+          "source_ref": "LIMRA-OPS",
+          "actual_display_pct": 38.0,
+          "target_display_pct": 30.0
         },
         "sla_compliance": {
           "actual": 0.92,
@@ -254,14 +278,18 @@
           "variance_pct": -3,
           "trend_7d": "down",
           "anomaly": "AMBER",
-          "source_ref": "LIMRA-OPS"
+          "source_ref": "LIMRA-OPS",
+          "actual_display_pct": 92.0,
+          "target_display_pct": 95.0
         },
         "fraud_score": {
           "actual": 0.15,
           "target": 0.3,
           "variance_pct": -50,
           "trend_7d": "stable",
-          "source_ref": "MUNICH-RE-FRAUD"
+          "source_ref": "MUNICH-RE-FRAUD",
+          "actual_display_pct": 15.0,
+          "target_display_pct": 30.0
         },
         "exception_rate_stp": {
           "actual": 0.42,
@@ -269,14 +297,18 @@
           "variance_pct": 40,
           "trend_7d": "up",
           "anomaly": "AMBER",
-          "source_ref": "LIMRA-OPS"
+          "source_ref": "LIMRA-OPS",
+          "actual_display_pct": 42.0,
+          "target_display_pct": 30.0
         },
         "api_success_pct": {
           "actual": 99.6,
           "target": 99.5,
           "variance_pct": 0.1,
           "trend_7d": "stable",
-          "source_ref": "GOOGLE-SRE"
+          "source_ref": "GOOGLE-SRE",
+          "actual_display_pct": 99.6,
+          "target_display_pct": 99.5
         },
         "api_latency_ms": {
           "actual": 380,
@@ -313,7 +345,9 @@
           "variance_pct": 20,
           "trend_7d": "up",
           "step": "upload_hospital_discharge",
-          "source_ref": "BAIN-DIGITAL-CLAIMS"
+          "source_ref": "BAIN-DIGITAL-CLAIMS",
+          "actual_display_pct": 12.0,
+          "target_display_pct": 10.0
         },
         "tickets_volume": {
           "actual": 1,
@@ -341,19 +375,25 @@
           "product": "Health+Wellness bundle",
           "trigger": "post-claim survival incentive",
           "estimated_lift_vnd": 4200000,
-          "source_ref": "FINTECH-BA-§4.4"
+          "source_ref": "FINTECH-BA-§4.4",
+          "trend_7d": "stable"
         },
         "clv_update_pct": {
           "actual": 8,
           "target": null,
           "note": "Recovery + renewal lift expected per Bain claim-satisfaction renewal correlation",
           "estimated_lift_vnd": 4800000,
-          "source_ref": "BAIN-RENEWAL-CLAIM"
+          "source_ref": "BAIN-RENEWAL-CLAIM",
+          "trend_7d": "stable"
         },
         "reserve_vnd": {
           "actual": 500000000,
           "ifrs17_csm_impact": "partial_release_on_decision",
-          "source_ref": "IFRS-17"
+          "source_ref": "IFRS-17",
+          "trend_7d": "stable",
+          "target_band_low": 475000000,
+          "target_band_high": 525000000,
+          "variance_from_band_mid_pct": 0.0
         },
         "exception_rate_pct": {
           "actual": 28.0,
@@ -362,7 +402,9 @@
           "trend_7d": "up",
           "anomaly": "AMBER",
           "source_ref": "LIMRA-CLAIMS-OPS",
-          "note": "Critical illness doc step generating exception spike"
+          "note": "Critical illness doc step generating exception spike",
+          "actual_display_pct": 28.0,
+          "target_display_pct": 20.0
         }
       },
       "expected_anomalies": [
@@ -473,7 +515,8 @@
             "impact": "Captures CLV upside"
           }
         ]
-      }
+      },
+      "claim_type": "complex"
     },
     {
       "scenario_id": "S3_FRAUD_FLAG",
@@ -511,14 +554,18 @@
           "target": 0.3,
           "variance_pct": 100,
           "trend_7d": "n/a",
-          "note": "Expected for SIU cases",
-          "source_ref": "LIMRA-OPS"
+          "note": "Manual intervention required because fraud alert routes this claim to SIU human review.",
+          "source_ref": "LIMRA-OPS",
+          "actual_display_pct": 60.0,
+          "target_display_pct": 30.0
         },
         "sla_compliance": {
           "actual": null,
           "target": 0.95,
           "note": "SIU cases excluded from SLA",
-          "source_ref": "LIMRA-OPS"
+          "source_ref": "LIMRA-OPS",
+          "trend_7d": "n/a",
+          "variance_pct": null
         },
         "fraud_score": {
           "actual": 0.78,
@@ -526,7 +573,9 @@
           "variance_pct": 160,
           "trend_7d": "up",
           "anomaly": "RED",
-          "source_ref": "MUNICH-RE-FRAUD"
+          "source_ref": "MUNICH-RE-FRAUD",
+          "actual_display_pct": 78.0,
+          "target_display_pct": 30.0
         },
         "exception_rate_stp": {
           "actual": 0.85,
@@ -534,14 +583,18 @@
           "variance_pct": 183,
           "trend_7d": "n/a",
           "note": "All SIU cases exception by design",
-          "source_ref": "LIMRA-OPS"
+          "source_ref": "LIMRA-OPS",
+          "actual_display_pct": 85.0,
+          "target_display_pct": 30.0
         },
         "api_success_pct": {
           "actual": 99.7,
           "target": 99.5,
           "variance_pct": 0.2,
           "trend_7d": "stable",
-          "source_ref": "GOOGLE-SRE"
+          "source_ref": "GOOGLE-SRE",
+          "actual_display_pct": 99.7,
+          "target_display_pct": 99.5
         },
         "api_latency_ms": {
           "actual": 340,
@@ -554,25 +607,35 @@
           "actual": null,
           "target": 38,
           "note": "Not surveyed under fraud investigation",
-          "source_ref": "BAIN-NPS-CLAIM"
+          "source_ref": "BAIN-NPS-CLAIM",
+          "trend_7d": "n/a",
+          "variance_pct": null
         },
         "csat": {
           "actual": null,
           "target": 4.0,
           "note": "Not yet measured",
-          "source_ref": "HANSA-CUES-2026"
+          "source_ref": "HANSA-CUES-2026",
+          "trend_7d": "n/a",
+          "variance_pct": null
         },
         "ces": {
           "actual": null,
           "target": 4.0,
           "note": "Not yet measured",
-          "source_ref": "FORRESTER-CX"
+          "source_ref": "FORRESTER-CX",
+          "trend_7d": "n/a",
+          "variance_pct": null
         },
         "dropoff_pct": {
           "actual": 0,
           "target": 0.1,
           "note": "Single-session claim",
-          "source_ref": "BAIN-DIGITAL-CLAIMS"
+          "source_ref": "BAIN-DIGITAL-CLAIMS",
+          "trend_7d": "stable",
+          "actual_display_pct": 0,
+          "target_display_pct": 10.0,
+          "variance_pct": null
         },
         "tickets_volume": {
           "actual": 2,
@@ -593,7 +656,8 @@
           "target": 1000000,
           "variance_pct": 250,
           "note": "SIU investigation cost",
-          "source_ref": "LIMRA-CLAIMS-OPS"
+          "source_ref": "LIMRA-CLAIMS-OPS",
+          "trend_7d": "stable"
         },
         "cross_sell_eligible": {
           "actual": false,
@@ -601,12 +665,16 @@
           "variance_pct": -100,
           "reason_for_block": "SIU_INVESTIGATION_HOLD",
           "source_ref": "FINTECH-BA-RETENTION",
-          "note": "Standard claims convert ~35% to bundle; SIU cases gated until cleared"
+          "note": "Standard claims convert ~35% to bundle; SIU cases gated until cleared",
+          "baseline_eligibility_pct": 35,
+          "reason": "Disabled by SIU review; would be 35% baseline eligibility if cleared",
+          "trend_7d": "stable"
         },
         "clv_update_pct": {
           "actual": null,
           "note": "Pending fraud outcome; if confirmed fraud, CLV = 0",
-          "source_ref": "TOWERS-WATSON-CLV"
+          "source_ref": "TOWERS-WATSON-CLV",
+          "trend_7d": "n/a"
         },
         "reserve_vnd": {
           "actual": 2000000000,
@@ -615,7 +683,8 @@
           "variance_from_band_mid_pct": 0.0,
           "ifrs17_csm_impact": "onerous_contract_flag",
           "source_ref": "IFRS17-CSM",
-          "note": "Onerous contract pending fraud outcome"
+          "note": "Onerous contract pending fraud outcome",
+          "trend_7d": "stable"
         },
         "exception_rate_pct": {
           "actual": 35.0,
@@ -624,7 +693,9 @@
           "trend_7d": "n/a",
           "anomaly": "RED",
           "source_ref": "LIMRA-CLAIMS-OPS",
-          "note": "SIU cases trigger exception path by design"
+          "note": "SIU cases trigger exception path by design",
+          "actual_display_pct": 35.0,
+          "target_display_pct": 20.0
         }
       },
       "expected_anomalies": [
@@ -684,7 +755,8 @@
             "impact": "Treaty compliance"
           }
         ]
-      }
+      },
+      "claim_type": "simple"
     },
     {
       "scenario_id": "S4_SLA_BREACH_COMMERCIAL_EROSION",
@@ -717,7 +789,9 @@
           "variance_pct": 50,
           "trend_7d": "up",
           "anomaly": "AMBER",
-          "source_ref": "LIMRA-OPS"
+          "source_ref": "LIMRA-OPS",
+          "actual_display_pct": 45.0,
+          "target_display_pct": 30.0
         },
         "sla_compliance": {
           "actual": 0.88,
@@ -735,7 +809,9 @@
           "target": 0.3,
           "variance_pct": -27,
           "trend_7d": "stable",
-          "source_ref": "MUNICH-RE-FRAUD"
+          "source_ref": "MUNICH-RE-FRAUD",
+          "actual_display_pct": 22.0,
+          "target_display_pct": 30.0
         },
         "exception_rate_stp": {
           "actual": 0.5,
@@ -743,14 +819,18 @@
           "variance_pct": 67,
           "trend_7d": "up",
           "anomaly": "AMBER",
-          "source_ref": "LIMRA-OPS"
+          "source_ref": "LIMRA-OPS",
+          "actual_display_pct": 50.0,
+          "target_display_pct": 30.0
         },
         "api_success_pct": {
           "actual": 99.6,
           "target": 99.5,
           "variance_pct": 0.1,
           "trend_7d": "stable",
-          "source_ref": "GOOGLE-SRE"
+          "source_ref": "GOOGLE-SRE",
+          "actual_display_pct": 99.6,
+          "target_display_pct": 99.5
         },
         "api_latency_ms": {
           "actual": 420,
@@ -789,7 +869,9 @@
           "variance_pct": 80,
           "trend_7d": "up",
           "step": "additional_medical_records",
-          "source_ref": "BAIN-DIGITAL-CLAIMS"
+          "source_ref": "BAIN-DIGITAL-CLAIMS",
+          "actual_display_pct": 18.0,
+          "target_display_pct": 10.0
         },
         "tickets_volume": {
           "actual": 4,
@@ -815,7 +897,8 @@
         "cross_sell_eligible": {
           "actual": false,
           "reason": "Customer dissatisfaction risk; recover first",
-          "source_ref": "FINTECH-BA-§4.4"
+          "source_ref": "FINTECH-BA-§4.4",
+          "trend_7d": "stable"
         },
         "clv_update_pct": {
           "actual": -15,
@@ -823,7 +906,8 @@
           "note": "Anchored to Bain renewal study: dissatisfied claim experience drops renewal probability by 17pp; CLV swing of -15% ≈ 8-12M VND in expected lifetime revenue at risk",
           "estimated_loss_vnd": 10500000,
           "anomaly": "RED",
-          "source_ref": "BAIN-RENEWAL-CLAIM"
+          "source_ref": "BAIN-RENEWAL-CLAIM",
+          "trend_7d": "stable"
         },
         "reserve_vnd": {
           "actual": 1500000000,
@@ -832,7 +916,8 @@
           "variance_from_band_mid_pct": 0.0,
           "ifrs17_csm_impact": "extended_release_period",
           "source_ref": "IFRS17-CSM",
-          "note": "Reserve extended due to investigation timeline"
+          "note": "Reserve extended due to investigation timeline",
+          "trend_7d": "stable"
         },
         "exception_rate_pct": {
           "actual": 32.0,
@@ -841,7 +926,9 @@
           "trend_7d": "up",
           "anomaly": "RED",
           "source_ref": "LIMRA-CLAIMS-OPS",
-          "note": "Complex case + comorbidity = multiple exception paths"
+          "note": "Complex case + comorbidity = multiple exception paths",
+          "actual_display_pct": 32.0,
+          "target_display_pct": 20.0
         }
       },
       "expected_anomalies": [
@@ -958,14 +1045,15 @@
             "impact": "Prevent breach 4 of 4 future similar cases"
           }
         ]
-      }
+      },
+      "claim_type": "complex"
     }
   ],
   "platform_metrics_strip": {
     "revenue_from_platform_vnd": 18500000000,
     "revenue_growth_rate_pct": 3.0,
     "arpu_vnd": 6200000,
-    "nrr_pct": 108,
+    "nrr_pct": 1.08,
     "sprint_velocity_sp": 32,
     "dora_deploy_per_week": 4,
     "change_failure_rate_pct": 8,
@@ -993,7 +1081,9 @@
       "APPSFLYER-VN-FINTECH"
     ],
     "adoption_nps_claims_segment": 38,
-    "_compliance_gap_note": "Compliance not 100% because: VNDPPA data subject rights workflow gaps (-3pts), IFRS17 disclosure depth gaps (-2pts), pending SBV audit findings (-1pt). Tile tooltip should explain this."
+    "_compliance_gap_note": "Compliance not 100% because: VNDPPA data subject rights workflow gaps (-3pts), IFRS17 disclosure depth gaps (-2pts), pending SBV audit findings (-1pt). Tile tooltip should explain this.",
+    "growth_rate_pct": 0.03,
+    "quality_score_pct": 0.91
   },
   "v12_changes": [
     "S1 realism adjustment (was too perfect)",

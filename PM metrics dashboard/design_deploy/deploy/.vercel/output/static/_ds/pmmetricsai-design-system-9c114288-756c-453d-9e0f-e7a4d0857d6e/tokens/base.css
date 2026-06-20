@@ -1,0 +1,54 @@
+/* PMMetricsAI — base resets & primitive helpers
+ * Minimal, document-level defaults so cards and kits render consistently.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-strong);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+h1, h2, h3, h4, p {
+  margin: 0;
+}
+
+/* Eyebrow label — used above titles and on section headers */
+.eyebrow {
+  color: var(--blue);
+  text-transform: uppercase;
+  font-size: var(--text-eyebrow);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1;
+}
+
+/* Restrained scrollbars matching the product chrome */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background-color: rgba(102, 117, 138, 0.35);
+  border-radius: var(--radius-pill);
+}

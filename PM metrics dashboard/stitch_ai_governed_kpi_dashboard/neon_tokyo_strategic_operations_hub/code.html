@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Insight &amp; Decision Analytics</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Sora -->
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Neon Tokyo Glow Effects */
+        .border-outline-variant, .border-outline {
+            border-color: rgba(255, 45, 120, 0.2) !important;
+        }
+        .bg-surface-container-lowest, .bg-surface {
+            box-shadow: 0 0 15px rgba(255, 45, 120, 0.05);
+        }
+        .text-primary, .text-secondary {
+            text-shadow: 0 0 8px rgba(255, 45, 120, 0.4);
+        }
+        .bg-primary {
+            box-shadow: 0 0 12px rgba(255, 45, 120, 0.6);
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ff2d78",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#4a001a",
+                        "on-primary-container": "#ffb3c6",
+                        "secondary": "#ff2d78",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#4a001a",
+                        "on-secondary-container": "#ffb3c6",
+                        "tertiary": "#00f0ff",
+                        "on-tertiary": "#000000",
+                        "tertiary-container": "#00404d",
+                        "on-tertiary-container": "#b3fcff",
+                        "error": "#ffaa00",
+                        "on-error": "#000000",
+                        "error-container": "#4d3300",
+                        "on-error-container": "#ffe5b3",
+                        "background": "#05050f",
+                        "on-background": "#e2e8f0",
+                        "surface": "#0a0a1a",
+                        "on-surface": "#f8fafc",
+                        "surface-variant": "#15152e",
+                        "on-surface-variant": "#94a3b8",
+                        "surface-container-lowest": "#05050f",
+                        "surface-container-low": "#0a0a1a",
+                        "surface-container": "#101026",
+                        "surface-container-high": "#15152e",
+                        "surface-container-highest": "#1a1a38",
+                        "surface-bright": "#1a1a38",
+                        "surface-dim": "#05050f",
+                        "outline": "#334155",
+                        "outline-variant": "#1e293b",
+                        "primary-fixed": "#ffb3c6",
+                        "primary-fixed-dim": "#ff80a3",
+                        "on-primary-fixed": "#330012",
+                        "on-primary-fixed-variant": "#660024",
+                        "secondary-fixed": "#ffb3c6",
+                        "secondary-fixed-dim": "#ff80a3",
+                        "on-secondary-fixed": "#330012",
+                        "on-secondary-fixed-variant": "#660024",
+                        "tertiary-fixed": "#b3fcff",
+                        "tertiary-fixed-dim": "#80faff",
+                        "on-tertiary-fixed": "#00262e",
+                        "on-tertiary-fixed-variant": "#004d5c",
+                        "surface-tint": "#ff2d78",
+                        "inverse-surface": "#e2e8f0",
+                        "inverse-on-surface": "#0f172a",
+                        "inverse-primary": "#990033"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "tightGap": "8px",
+                        "containerPadding": "24px",
+                        "componentGap": "12px",
+                        "tableCellPadding": "8px 12px",
+                        "inlinePadding": "12px 16px",
+                        "gridGutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Sora", "sans-serif"],
+                        "label-sm": ["Sora", "sans-serif"],
+                        "body-md": ["Sora", "sans-serif"],
+                        "display-metric": ["Sora", "sans-serif"],
+                        "body-lg": ["Sora", "sans-serif"],
+                        "headline-md": ["Sora", "sans-serif"],
+                        "label-xs": ["Sora", "sans-serif"],
+                        "display-metric-mobile": ["Sora", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-metric": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-xs": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "display-metric-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- Shared Component: SideNavBar -->
+<nav class="bg-surface border-r border-outline-variant fixed left-0 top-0 h-full flex flex-col z-40 w-64">
+<!-- Header -->
+<div class="px-containerPadding py-6 border-b border-outline-variant flex items-center gap-componentGap">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md text-headline-md shadow-[0_0_10px_rgba(255,45,120,0.3)] border border-primary/30">
+                CM
+            </div>
+<div>
+<h1 class="text-headline-md font-headline-md font-extrabold text-primary">ClaimMind AI</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mt-1">Enterprise Risk Suite</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="flex flex-col gap-1">
+<li>
+<a class="flex items-center gap-componentGap px-containerPadding py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-lowest transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-sm font-label-sm">Overview</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-componentGap px-containerPadding py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-lowest transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="text-label-sm font-label-sm">Claims</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-componentGap px-containerPadding py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-lowest transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-label-sm font-label-sm">Policy Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-componentGap px-containerPadding py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-lowest transition-colors" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="text-label-sm font-label-sm">Risk Management</span>
+</a>
+</li>
+<!-- Active Nav Item -->
+<li>
+<a class="flex items-center gap-componentGap px-containerPadding py-3 text-primary font-bold border-r-4 border-primary bg-surface-container-high transition-colors scale-[0.98] origin-left shadow-[inset_0_0_10px_rgba(255,45,120,0.1)]" href="#">
+<span class="material-symbols-outlined icon-fill">history_edu</span>
+<span class="text-label-sm font-label-sm">AI Decisions Log</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Shared Component: TopAppBar -->
+<header class="bg-surface border-b border-outline-variant fixed top-0 right-0 left-64 flex justify-between items-center px-containerPadding h-16 z-30">
+<!-- Search Bar (on_left) -->
+<div class="flex-1 max-w-md relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:shadow-[0_0_10px_rgba(255,45,120,0.3)] transition-all" placeholder="Search analytics..." type="text"/>
+</div>
+<!-- Trailing Actions & Profile -->
+<div class="flex items-center gap-gridGutter">
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full border border-outline-variant/50">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">AI Layer</span>
+<button class="text-primary hover:text-primary-container transition-colors flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined icon-fill text-[20px]">toggle_on</span>
+</button>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">sync</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<img alt="JD" class="w-8 h-8 rounded-full border border-outline cursor-pointer object-cover" data-alt="A professional corporate headshot of an executive in a modern, well-lit office environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6QDcldATfhMttqyOkjbb66hE9krRb9JvnvRVc6298FU1ICL5Fg8msjpUdUuHYocIrMU0EqbgVEUupUUbD7c4QEO2NJHBc9kPvlELa-vjaKOsm1WUANwEb0F5RSr1SHhiudotDJPSS7vpyAxzV4ibtzP57sX56Orvnzb_sVzmetKe9lzbtotx-vPz3KZ_nrEepsuGcfsOwoccJlFdiNvIjAv6P5Tng1CQym8nG1TGgcLE0L5L5rpcqfpAmf_WJ7t7vSEcKiCR-00o"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-16 p-containerPadding">
+<!-- Page Header & Kill Switch -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface mb-2">Decision Analytics</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Review automated insights, comprehensive metrics, and system interventions.</p>
+</div>
+<!-- Global Kill Switch -->
+<button class="flex items-center gap-2 bg-error-container text-on-error-container hover:bg-error hover:text-on-error px-4 py-2 rounded-lg transition-colors border border-error/50 shadow-[0_0_10px_rgba(255,170,0,0.3)]">
+<span class="material-symbols-outlined text-[20px]">power_settings_new</span>
+<span class="text-label-sm font-label-sm">Disable AI Overrides</span>
+</button>
+</div>
+<!-- 12-Column Grid Layout -->
+<div class="grid grid-cols-12 gap-gridGutter items-start">
+<!-- Left Column: KPIs, Data Table (Col span 9) -->
+<div class="col-span-9 flex flex-col gap-gridGutter">
+<!-- Dashboard Overview: 30 Metrics Grid -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-containerPadding flex flex-col gap-6 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+<div class="flex justify-between items-center border-b border-outline-variant pb-4 relative z-10">
+<h3 class="text-headline-md font-headline-md text-on-surface">Dashboard Overview</h3>
+<span class="bg-surface-variant text-primary px-2 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest border border-primary/30 flex items-center gap-1 shadow-[0_0_8px_rgba(255,45,120,0.2)]">
+<span class="material-symbols-outlined text-[12px]">info</span>
+            Advisory Only
+        </span>
+</div>
+<div class="grid grid-cols-2 gap-gridGutter relative z-10">
+<!-- Revenue & Commercial -->
+<div class="bg-surface border border-outline-variant rounded-lg p-4 flex flex-col gap-2">
+<h4 class="text-label-sm font-label-sm text-primary uppercase tracking-wide border-b border-outline-variant/50 pb-2 mb-2">Revenue &amp; Commercial (7)</h4>
+<!-- Metrics Rows -->
+<div class="flex flex-col gap-2 text-sm">
+<!-- Row template -->
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Revenue</span>
+<span class="font-bold text-on-surface w-1/4">$4.2M</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: $4.0M</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+5.0%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Growth Rate</span>
+<span class="font-bold text-on-surface w-1/4">12%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 10%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+2.0%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">ARPU</span>
+<span class="font-bold text-on-surface w-1/4">$1,250</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: $1,200</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+4.1%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">NRR</span>
+<span class="font-bold text-on-surface w-1/4">110%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 105%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+4.7%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Cost/Trans</span>
+<span class="font-bold text-on-surface w-1/4">$15.20</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: $16.00</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-tertiary">
+<span class="text-xs">-5.0%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Cross-sell</span>
+<span class="font-bold text-on-surface w-1/4">18%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 15%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+20.0%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">CLV</span>
+<span class="font-bold text-on-surface w-1/4">$14.5k</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: $14.0k</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+3.5%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Customer Experience -->
+<div class="bg-surface border border-outline-variant rounded-lg p-4 flex flex-col gap-2">
+<h4 class="text-label-sm font-label-sm text-primary uppercase tracking-wide border-b border-outline-variant/50 pb-2 mb-2">Customer Experience (8)</h4>
+<div class="flex flex-col gap-2 text-sm">
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">NPS</span>
+<span class="font-bold text-on-surface w-1/4">68</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 65</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+4.6%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">CSAT</span>
+<span class="font-bold text-on-surface w-1/4">92%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 90%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+2.2%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">CES</span>
+<span class="font-bold text-on-surface w-1/4">4.2</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 4.5</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-error">
+<span class="text-xs">-6.6%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Dropoff</span>
+<span class="font-bold text-on-surface w-1/4">14%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 12%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-error">
+<span class="text-xs">+16.6%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Retention</span>
+<span class="font-bold text-on-surface w-1/4">88%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 85%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+3.5%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Tickets</span>
+<span class="font-bold text-on-surface w-1/4">342</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 300</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-error">
+<span class="text-xs">+14.0%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Peak Time</span>
+<span class="font-bold text-on-surface w-1/4">14m</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 10m</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-error">
+<span class="text-xs">+40.0%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Segment</span>
+<span class="font-bold text-on-surface w-1/4">Tier 1</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: Tier 1</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-on-surface-variant">
+<span class="text-xs">0.0%</span><span class="material-symbols-outlined text-[14px]">horizontal_rule</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Operations & Risk -->
+<div class="bg-surface border border-outline-variant rounded-lg p-4 flex flex-col gap-2">
+<h4 class="text-label-sm font-label-sm text-primary uppercase tracking-wide border-b border-outline-variant/50 pb-2 mb-2">Operations &amp; Risk (7)</h4>
+<div class="flex flex-col gap-2 text-sm">
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">TAT</span>
+<span class="font-bold text-on-surface w-1/4">2.4d</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 3.0d</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">-20.0%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">%Manual</span>
+<span class="font-bold text-on-surface w-1/4">12%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 15%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">-20.0%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Incidents</span>
+<span class="font-bold text-on-surface w-1/4">3</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 5</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">-40.0%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">MTTD/R</span>
+<span class="font-bold text-on-surface w-1/4">45m</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 60m</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">-25.0%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">SLA</span>
+<span class="font-bold text-on-surface w-1/4">99.2%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 99.0%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+0.2%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Fraud</span>
+<span class="font-bold text-on-surface w-1/4">0.8%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: &lt;1.0%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">-20.0%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Compliance</span>
+<span class="font-bold text-on-surface w-1/4">98%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 95%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+3.1%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Project Health -->
+<div class="bg-surface border border-outline-variant rounded-lg p-4 flex flex-col gap-2">
+<h4 class="text-label-sm font-label-sm text-primary uppercase tracking-wide border-b border-outline-variant/50 pb-2 mb-2">Project Health (8)</h4>
+<div class="flex flex-col gap-2 text-sm">
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">On Time</span>
+<span class="font-bold text-on-surface w-1/4">92%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 90%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+2.2%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Scope</span>
+<span class="font-bold text-on-surface w-1/4">95%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 100%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-error">
+<span class="text-xs">-5.0%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Budget</span>
+<span class="font-bold text-on-surface w-1/4">102%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 100%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-error">
+<span class="text-xs">+2.0%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Quality</span>
+<span class="font-bold text-on-surface w-1/4">99%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 95%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+4.2%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Velocity</span>
+<span class="font-bold text-on-surface w-1/4">42</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 40</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+5.0%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Deploy</span>
+<span class="font-bold text-on-surface w-1/4">12/wk</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 10/wk</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">+20.0%</span><span class="material-symbols-outlined text-[14px]">trending_up</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">CFR</span>
+<span class="font-bold text-on-surface w-1/4">1.2%</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: &lt;2.0%</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">-40.0%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-outline-variant/30 last:border-0">
+<span class="text-on-surface-variant w-1/4">Lead Time</span>
+<span class="font-bold text-on-surface w-1/4">2d</span>
+<span class="text-xs text-on-surface-variant w-1/4">T: 3d</span>
+<div class="w-1/4 flex justify-end items-center gap-1 text-secondary">
+<span class="text-xs">-33.3%</span><span class="material-symbols-outlined text-[14px]">trending_down</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Single Claim Deep Dive (Triggered) -->
+<div class="bg-surface-container-lowest border-l-4 border-l-tertiary border-y border-r border-outline-variant rounded-xl flex flex-col overflow-hidden relative shadow-[0_0_15px_rgba(0,240,255,0.15)]">
+<div class="absolute top-0 right-0 p-4">
+<span class="inline-flex items-center bg-tertiary-fixed/20 text-tertiary border border-tertiary/50 text-label-sm font-label-sm px-2.5 py-1 rounded-full shadow-[0_0_10px_rgba(0,240,255,0.3)]">
+            AI Conf: 98.2%
+        </span>
+</div>
+<div class="p-inlinePadding border-b border-outline-variant bg-tertiary/10 flex justify-between items-center">
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary drop-shadow-[0_0_5px_rgba(0,240,255,0.8)]">manage_search</span>
+                Single Claim Deep Dive: CL-99201
+            </h3>
+<p class="text-label-sm text-on-surface-variant mt-1">Trigger: Suspicious damage pattern matching 4 prior claims (Citation: Hist_Pattern_DB_Row_9)</p>
+</div>
+</div>
+<div class="p-containerPadding grid grid-cols-3 gap-6">
+<!-- Event Metrics Grid (12 Metrics) -->
+<div class="col-span-3 grid grid-cols-4 gap-4">
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">TAT</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">1.2d <span class="text-xs text-secondary ml-2 font-normal">(-40% T: 2d)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">%Manual</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">100% <span class="text-xs text-error ml-2 font-normal">(+85% T: 15%)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">SLA Status</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">At Risk <span class="text-xs text-error ml-2 font-normal">(90% T: &gt;95%)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col border-l-[3px] border-l-error bg-error/10 shadow-[inset_2px_0_10px_rgba(255,170,0,0.2)]">
+<span class="text-label-xs text-error font-bold uppercase drop-shadow-[0_0_5px_rgba(255,170,0,0.5)]">Fraud Prob</span>
+<span class="text-body-lg font-bold text-error mt-1 drop-shadow-[0_0_5px_rgba(255,170,0,0.5)]">92% <span class="text-xs ml-2 font-normal">(+91% T: &lt;1%)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">CSAT Impct</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">-12% <span class="text-xs text-error ml-2 font-normal">(T: &gt;0%)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">CES Impct</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">+1.5 <span class="text-xs text-error ml-2 font-normal">(T: &lt;0.5)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">Dropoff Risk</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">High <span class="text-xs text-error ml-2 font-normal">(34% prob)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">Tickets Gen</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">4 <span class="text-xs text-error ml-2 font-normal">(+3 T: 1)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">Cost/Claim</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">$4,500 <span class="text-xs text-error ml-2 font-normal">(+20% T: $3.7k)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">Cross-sell Trig</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">Paused <span class="text-xs text-on-surface-variant ml-2 font-normal">(Due to SIU)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">CLV Update</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">-$2.1k <span class="text-xs text-error ml-2 font-normal">(-14% T: 0%)</span></span>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-3 flex flex-col hover:border-primary/50 transition-colors">
+<span class="text-label-xs text-on-surface-variant uppercase">Reserve</span>
+<span class="text-body-lg font-bold text-on-surface mt-1">$12,000 <span class="text-xs text-error ml-2 font-normal">(+50% T: $8k)</span></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Filters & Anomaly Feed (Col span 3) -->
+<div class="col-span-3 flex flex-col gap-gridGutter sticky top-24">
+<!-- Filters Panel -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-inlinePadding flex flex-col gap-4">
+<div class="flex items-center gap-2 border-b border-outline-variant pb-3">
+<span class="material-symbols-outlined text-primary drop-shadow-[0_0_5px_rgba(255,45,120,0.8)]">filter_list</span>
+<h4 class="text-headline-md font-headline-md text-on-surface text-base">Analytics Filters</h4>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-sm font-label-sm text-on-surface-variant">FNOL Date Range</label>
+<select class="w-full bg-surface border border-outline-variant rounded-md px-3 py-2 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary focus:shadow-[0_0_10px_rgba(255,45,120,0.3)] outline-none text-on-surface">
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+<option>This Quarter</option>
+<option>Custom Range...</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-sm font-label-sm text-on-surface-variant">Loss Cause Category</label>
+<select class="w-full bg-surface border border-outline-variant rounded-md px-3 py-2 text-body-md font-body-md focus:border-primary focus:ring-1 focus:ring-primary focus:shadow-[0_0_10px_rgba(255,45,120,0.3)] outline-none text-on-surface">
+<option>All Causes</option>
+<option>Water Damage</option>
+<option>Fire / Smoke</option>
+<option>Theft</option>
+<option>Weather Events</option>
+</select>
+</div>
+<button class="w-full bg-primary text-on-primary py-2 rounded-md text-label-sm font-label-sm hover:bg-primary/90 transition-all mt-2 shadow-[0_0_15px_rgba(255,45,120,0.4)] hover:shadow-[0_0_20px_rgba(255,45,120,0.6)]">
+                        Apply Filters
+                    </button>
+</div>
+<!-- Interactive Anomaly Detection Feed -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col h-[600px] overflow-hidden flex-1">
+<div class="p-inlinePadding border-b border-outline-variant bg-surface-container-low/50 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="relative w-2 h-2">
+<div class="absolute inset-0 bg-primary rounded-full animate-ping opacity-75"></div>
+<div class="relative w-2 h-2 bg-primary rounded-full shadow-[0_0_8px_rgba(255,45,120,1)]"></div>
+</div>
+<h4 class="text-headline-md font-headline-md text-on-surface text-base">Live Anomalies</h4>
+</div>
+</div>
+<!-- Feed Items -->
+<div class="flex-1 overflow-y-auto p-3 flex flex-col gap-3 bg-surface-bright/50">
+<!-- AI Insight Card (High Confidence) -->
+<div class="bg-surface border border-outline-variant rounded-lg p-3 border-l-[3px] border-l-tertiary relative overflow-hidden group cursor-pointer hover:shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:border-tertiary/50 transition-all">
+<div class="absolute inset-0 bg-tertiary/5 opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity"></div>
+<div class="relative z-10 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-label-xs font-label-xs text-on-surface-variant uppercase tracking-wider">Pattern Detected</span>
+<span class="inline-flex items-center bg-tertiary/20 text-tertiary text-[10px] font-label-sm px-1.5 py-0.5 rounded border border-tertiary/30 shadow-[0_0_5px_rgba(0,240,255,0.2)]">
+                                        99.1% Conf
+                                    </span>
+</div>
+<p class="text-body-md font-body-md text-on-surface font-medium leading-tight">
+                                    Cluster of 12 roofing claims filed within 4 hours in Sector 4.
+                                </p>
+<div class="mt-2 bg-surface-container-low p-2 rounded text-label-xs font-label-xs text-on-surface-variant border border-outline-variant/30 font-mono">
+                                    Citation: Weather_API_Ref_441, Hist_Pattern_DB_Row_9
+                                </div>
+<div class="flex justify-between items-center mt-1">
+<span class="bg-surface-variant text-primary px-1.5 py-0.5 rounded text-[9px] uppercase font-bold tracking-widest border border-primary/30 shadow-[0_0_5px_rgba(255,45,120,0.2)]">Advisory Only</span>
+<button class="text-primary text-label-sm font-label-sm hover:underline hover:text-primary-fixed-dim transition-colors">Investigate</button>
+</div>
+</div>
+</div>
+<!-- AI Insight Card (Medium Confidence) -->
+<div class="bg-surface border border-outline-variant rounded-lg p-3 border-l-[3px] border-l-primary relative overflow-hidden group cursor-pointer hover:shadow-[0_0_15px_rgba(255,45,120,0.2)] hover:border-primary/50 transition-all">
+<div class="absolute inset-0 bg-primary/5 opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity"></div>
+<div class="relative z-10 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-label-xs font-label-xs text-on-surface-variant uppercase tracking-wider">Velocity Alert</span>
+<span class="inline-flex items-center bg-surface-variant text-on-surface-variant text-[10px] font-label-sm px-1.5 py-0.5 rounded border border-outline-variant">
+                                        84.5% Conf
+                                    </span>
+</div>
+<p class="text-body-md font-body-md text-on-surface font-medium leading-tight">
+                                    Claim CL-8819 moving through processing 400% faster than median.
+                                </p>
+<div class="mt-2 bg-surface-container-low p-2 rounded text-label-xs font-label-xs text-on-surface-variant border border-outline-variant/30 font-mono">
+                                    Citation: Processing_Velocity_Model_v2
+                                </div>
+<div class="flex justify-between items-center mt-1">
+<span class="bg-surface-variant text-primary px-1.5 py-0.5 rounded text-[9px] uppercase font-bold tracking-widest border border-primary/30 shadow-[0_0_5px_rgba(255,45,120,0.2)]">Advisory Only</span>
+<button class="text-primary text-label-sm font-label-sm hover:underline hover:text-primary-fixed-dim transition-colors">View Flow</button>
+</div>
+</div>
+</div>
+<!-- AI Insight Card (Review Required) -->
+<div class="bg-surface border border-outline-variant rounded-lg p-3 border-l-[3px] border-l-error relative overflow-hidden group cursor-pointer hover:shadow-[0_0_15px_rgba(255,170,0,0.2)] hover:border-error/50 transition-all">
+<div class="absolute inset-0 bg-error/5 opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity"></div>
+<div class="relative z-10 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-label-xs font-label-xs text-error uppercase tracking-wider font-bold drop-shadow-[0_0_3px_rgba(255,170,0,0.5)]">Policy Conflict</span>
+<span class="inline-flex items-center bg-error-container/50 text-error text-[10px] font-label-sm px-1.5 py-0.5 rounded border border-error/30 shadow-[0_0_5px_rgba(255,170,0,0.2)]">
+                                        76.2% Conf
+                                    </span>
+</div>
+<p class="text-body-md font-body-md text-on-surface font-medium leading-tight">
+                                    AI generated settlement value exceeds historical maximum for policy tier by $4k.
+                                </p>
+<div class="mt-2 bg-surface-container-low p-2 rounded text-label-xs font-label-xs text-on-surface-variant border border-outline-variant/30 font-mono">
+                                    Citation: Tier_Limits_DB, Generative_Pricing_Module
+                                </div>
+<div class="flex justify-between items-center mt-1">
+<span class="bg-surface-variant text-primary px-1.5 py-0.5 rounded text-[9px] uppercase font-bold tracking-widest border border-primary/30 shadow-[0_0_5px_rgba(255,45,120,0.2)]">Advisory Only</span>
+<button class="text-error text-label-sm font-label-sm hover:underline font-bold drop-shadow-[0_0_5px_rgba(255,170,0,0.5)]">Manual Override</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

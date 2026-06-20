@@ -1,0 +1,30 @@
+/* PMMetricsAI — Radius, border & elevation tokens
+ * Soft 8px corners everywhere; pills are fully round. Elevation is restrained:
+ * a single soft, wide ambient shadow on raised surfaces — no heavy drop shadows.
+ * Status is communicated with a 5px left border accent, not color floods.
+ */
+
+:root {
+  /* Radii */
+  --radius-sm: 6px;
+  --radius: 8px;        /* default: cards, tiles, inputs, buttons */
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* Borders */
+  --border-width: 1px;
+  --accent-bar: 5px;    /* left status accent on cards/tiles */
+
+  /* Elevation */
+  --shadow-card: 0 16px 40px rgba(16, 32, 51, 0.06);
+  --shadow-pop: 0 18px 50px rgba(16, 32, 51, 0.16);  /* modals, menus */
+  --shadow-none: none;
+
+  /* Glass (topbar / sidebar overlays) */
+  --blur-glass: 14px;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --dur-fast: 120ms; /* @kind other */
+  --dur-base: 200ms; /* @kind other */
+}

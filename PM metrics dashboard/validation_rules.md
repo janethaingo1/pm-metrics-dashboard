@@ -54,13 +54,13 @@ OWASP Agentic Top 10 items mapped to pilot controls.
 
 | OWASP risk | Control implemented | Enforcement point |
 |---|---|---|
-| **LLM01** Prompt injection | Sanitize NLP user input: strip system-prompt markers (`<\|im_start\|>`, `[INST]`, `<system>`) before passing to Claude API. Reject queries containing instructions to ignore previous context. | Codex middleware |
-| **LLM04** Hallucination | Every AI insight must populate `source_claims: [claim_id, ...]` listing claims it drew from. NLP response template forces citation field. | Claude prompt schema |
+| **LLM01** Prompt injection | Sanitize NLP user input: strip system-prompt markers (`<\|im_start\|>`, `[INST]`, `<system>`) before passing to any provider API. Reject queries containing instructions to ignore previous context. | Codex middleware |
+| **LLM04** Hallucination | Every AI insight must populate `source_claims: [claim_id, ...]` listing claims it drew from. NLP response template and offline fallback force citation field. | NLP schema |
 | **LLM06** Over-reliance | All AI output tagged `advisory_only: true`. Dashboard UI displays "AI insight — review before action" banner on every card. Never auto-executes a claim decision. | Anomaly + NLP response schema, UI badge |
 | **LLM09** Misinformation | Confidence threshold: insights with `confidence_pct < 70` are suppressed from display. | Claude prompt + display filter |
 | **LLM10** Unbounded consumption | Max 5 NLP queries per session before rate-limit warning. Anomaly recomputation throttled to once per 60s. | Codex rate limiter |
-| Kill switch (operational) | Env var `AI_LAYER_ENABLED=false` disables anomaly + NLP entirely in ≤2s. Dashboard gracefully falls back to raw metrics display. | Codex config flag, Antigravity feature toggle |
-| Audit log | Every AI output appended to `ai_decisions.log` as JSONL: `{timestamp, query_or_metric, prompt_hash, response, confidence_pct, source_claims}` | OpenClaw responsibility |
+| Kill switch (operational) | Env var `AI_LAYER_ENABLED=false` disables anomaly + NLP entirely in ≤2s. Dashboard gracefully falls back to raw metrics display. | Backend startup flag, API toggle, Antigravity feature toggle |
+| Audit log | Every AI output appended to `ai_decisions.log` as JSONL with timestamp, action/query context, `response`, `confidence_pct`, and `source_claims` where applicable. | Backend responsibility |
 | No real PII | All data is mock. Schema validator rejects any field matching real-ID patterns (Vietnamese national ID format, full names with diacritics, real phone numbers). | Schema validator + pre-commit hook |
 
 ---
