@@ -16,8 +16,8 @@
 | O2 | TAT (complex) | LIMRA Claims Ops 2024 | <15d green, 15-30d amber, >30d red | LIMRA Claims Benchmark 2024 |
 | O3 | % Manual Intervention | LIMRA STP Ops | <25% green, >30% red | Inverse of STP target >70% per LIMRA |
 | O4 | Exception Rate | LIMRA Ops | <20% green, >30% red | LIMRA Claims Operations Benchmark |
-| P1 | SLA Compliance | Prudential Internal | >95% green, <90% red | Prudential Vietnam Service Level Agreement 2025 |
-| P2 | Fraud Precision | Prudential Risk + SBV | >65% green (precision), <60% red | SBV Circular 09/2020 Art.14 |
+| P1 | SLA Compliance | Internal System | >95% green, <90% red | Standard SLA 2025 |
+| P2 | Fraud Precision | Risk System + SBV | >65% green (precision), <60% red | SBV Circular 09/2020 Art.14 |
 | S1 | API Success | Google SRE | >99.5% target | Google Site Reliability Engineering standards |
 | S2 | API Latency | Google SRE | <500ms target | Google SRE latency targets |
 | X1 | CSAT | Hansa Cues 2026 | >4.2 green, <4.0 red | Hansa Cues Customer Satisfaction Insurance 2026 |

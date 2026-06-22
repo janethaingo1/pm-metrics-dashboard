@@ -39,7 +39,7 @@ I have successfully implemented, verified, and integrated the v1.2 UAT redesign 
 * **Global Styles & Design Tokens (`index.css`)**: Setup color, typography, spacing, and elevation variables for the "Luminous Clarity" palette (light mode defaults, with dark mode overrides under `.dark` and `[data-theme="dark"]`).
 * **Lucide Icon Integration (`index.html`)**: Added the Lucide icon library CDN and wired runtime icon loading dynamically in the frontend components.
 * **Sidebar Restructuring (`App.tsx`)**:
-  - Implemented the PMMetricsAI SVG logo and Prudential tagline.
+  - Implemented the PMMetricsAI SVG logo and tagline.
   - Re-laid navigation tabs: Executive Scorecard, Strategic Ops, and Live Monitor with clean active tab styling.
   - Positioned the AI Layer control box at the bottom of the sidebar. Wired the switch to toggle the AI Layer and trigger `/api/killswitch`.
 * **Metric & Scorecard Redesign (`ExecutiveDashboard.tsx`)**:
@@ -55,7 +55,7 @@ I have successfully implemented, verified, and integrated the v1.2 UAT redesign 
 
 ## 5. Live Production Fixes & Governance Log Integration
 * **Vercel Backend API Deployment**: 
-  - Deployed the FastAPI backend to Vercel at `https://prudential-pmm-metrics-api.vercel.app`.
+  - Deployed the FastAPI backend to Vercel at `https://pm-metrics-ai-api.vercel.app`.
   - Added a root `requirements.txt` to enable correct Python package installation (`fastapi`, `uvicorn`, `httpx`, `pydantic`).
   - Resolved the `strategic` tab loading error by verifying connection queries and loading claims metadata successfully.
 * **Governance Log Integration (`GovernanceDashboard.tsx`, `main.py`, `App.tsx`)**:
