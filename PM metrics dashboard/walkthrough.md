@@ -65,4 +65,23 @@ I have successfully implemented, verified, and integrated the v1.2 UAT redesign 
   - Excluded the bottom aggregate metrics strip when viewing the Governance tab.
 * **GitHub Repository Sync**: Pushed the updated codebase, sync configuration, and build configurations to the GitHub repository [janethaingo1/pm-metrics-dashboard](https://github.com/janethaingo1/pm-metrics-dashboard).
 
+---
+
+## 6. UAT Bug Resolution & Consistency Updates (v1.3)
+* **Scenario 4 CLV Erosion Consistency**:
+  - Added the RED `clv_update_pct` expected anomaly card in `mock_claims_uat.json` and `backend/anomalies.py`.
+  - Updated formatting helpers (`getMetricDisplayValue`, `getMetricTargetValue`, `getMetricValueText`) in `OperationsDashboard.tsx` to handle fractional and percentage values correctly, avoiding double-multiplication formatting issues.
+  - Wrapped the CLV Lift metric tile in `OperationsDashboard.tsx` with `getMetricClass` to display RED highlights when appropriate.
+* **AI Layer Toggle Consistency**:
+  - Updated `getMetricClass` to immediately return standard styling (`border-white/10`) when `aiLayerEnabled` is false, removing all AI anomaly borders and backgrounds.
+  - Resolved toggle race conditions in `App.tsx` by eliminating optimistic state updates and waiting for the API response.
+* **Responsive Layout Grid Adjustments**:
+  - Restructured grid classes in `OperationsDashboard.tsx` (using `xl:grid-cols-3 2xl:grid-cols-6` and `sm:grid-cols-2 lg:grid-cols-4`) to double card widths on standard desktop screens, preventing word wrapping and overlapping label layout bugs.
+* **Scenario 2 Manual Intervention Level Correction**:
+  - Updated `pct_manual_intervention` anomaly level from AMBER to RED in `mock_claims_uat.json` and `backend/anomalies.py` to match the rules threshold (>30% = RED, actual is 38%).
+* **Verification & Live Deploy**:
+  - Run regression check script `backend/uat_regression_check.py` successfully (100% pass).
+  - Deployed updated frontend and backend live to Vercel.
+
+
 

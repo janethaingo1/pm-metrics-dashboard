@@ -1,0 +1,3 @@
+display_name: PM Dashboard Plugin Sync
+short_description: Reuse and verify Jane's PM dashboard plugin, Master AI data contract, and Vercel UAT workflow.
+default_prompt: Use the PM Dashboard Plugin Sync skill to inspect the plugin files, preserve PMMetricsAI guardrails, verify the Master AI data contract, and report what is ready for UAT.

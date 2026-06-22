@@ -88,7 +88,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
   const formatVND = (v: number | undefined) => v ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(v).replace('₫', 'VND') : 'N/A';
   
   const getMetricClass = (_k: string, valObj: any) => {
-    if (!valObj) return 'border-white/10';
+    if (!aiLayerEnabled || !valObj) return 'border-white/10';
     if (valObj.anomaly === 'RED') return 'border-l-[3px] border-l-[#ff2d78] bg-[#ff2d78]/5 border-white/10';
     if (valObj.anomaly === 'AMBER') return 'border-l-[3px] border-l-[#ffaa00] bg-[#ffaa00]/5 border-white/10';
     return 'border-white/10 hover:border-primary/50 transition-colors';
@@ -107,16 +107,34 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
     if (!valObj) return 'N/A';
     if (valObj.actual === null) return <span className="text-gray-500 text-xs italic">{valObj.note || 'Not measured'}</span>;
     let valStr = `${valObj.actual}`;
-    if (key.includes('pct') || key.includes('compliance')) valStr = `${(valObj.actual * 100).toFixed(0)}%`;
-    else if (key.includes('vnd')) valStr = formatVND(valObj.actual);
+    
+    // Fractions (need * 100)
+    if (key === 'pct_manual_intervention' || key === 'sla_compliance' || key === 'dropoff_pct' || key === 'exception_rate_stp') {
+      valStr = `${(valObj.actual * 100).toFixed(0)}%`;
+    } else if (key === 'clv_update_pct' || key === 'exception_rate_pct' || key === 'api_success_pct') {
+      valStr = `${valObj.actual > 0 ? '+' : ''}${valObj.actual}%`;
+    } else if (key.includes('vnd')) {
+      valStr = formatVND(valObj.actual);
+    }
+    
     return (
-      <span className="text-body-lg font-bold text-on-surface mt-1 flex flex-col gap-0.5">
+      <span className="text-body-lg font-bold text-on-surface mt-1 flex flex-col gap-0.5 font-mono">
         <span>
           {valStr}
-          {valObj.target && <span className="text-xs text-gray-400 font-normal ml-2">(T: {key.includes('pct') ? `${(valObj.target*100).toFixed(0)}%` : valObj.target})</span>}
+          {valObj.target && (
+            <span className="text-xs text-gray-400 font-normal ml-2 font-sans">
+              (T: {
+                (key === 'pct_manual_intervention' || key === 'sla_compliance' || key === 'dropoff_pct' || key === 'exception_rate_stp')
+                  ? `${(valObj.target * 100).toFixed(0)}%`
+                  : (key === 'clv_update_pct' || key === 'exception_rate_pct' || key === 'api_success_pct')
+                  ? `${valObj.target}%`
+                  : valObj.target
+              })
+            </span>
+          )}
         </span>
         {key === 'fraud_score' && valObj.actual >= 0.60 && (
-          <span className="self-start text-[8px] font-bold bg-[#ffaa00]/10 text-[#ffaa00] border border-[#ffaa00]/30 px-1.5 py-0.5 rounded uppercase tracking-wider mt-1">
+          <span className="self-start text-[8px] font-bold bg-[#ffaa00]/10 text-[#ffaa00] border border-[#ffaa00]/30 px-1.5 py-0.5 rounded uppercase tracking-wider mt-1 font-sans">
             SIU Review Queue
           </span>
         )}
@@ -128,15 +146,21 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
     if (!claim || !claim.metrics) return 'N/A';
     const m = claim.metrics[metricKey];
     if (!m || m.actual === undefined || m.actual === null) return 'N/A';
-    if (metricKey.includes('pct') || metricKey.includes('compliance') || metricKey === 'csat' || metricKey === 'ces' || metricKey === 'dropoff_pct' || metricKey === 'pct_manual_intervention' || metricKey === 'clv_update_pct') {
-      if (metricKey === 'csat' || metricKey === 'ces') {
-        return `${m.actual.toFixed(1)} / 5.0`;
-      }
-      if (metricKey === 'clv_update_pct') {
-        return `${m.actual > 0 ? '+' : ''}${(m.actual * 100).toFixed(0)}%`;
-      }
+    
+    if (metricKey === 'csat' || metricKey === 'ces') {
+      return `${m.actual.toFixed(1)} / 5.0`;
+    }
+    
+    // Fractions (need * 100)
+    if (metricKey === 'pct_manual_intervention' || metricKey === 'sla_compliance' || metricKey === 'dropoff_pct' || metricKey === 'exception_rate_stp') {
       return `${(m.actual * 100).toFixed(0)}%`;
     }
+    
+    // Percents (do not need * 100)
+    if (metricKey === 'clv_update_pct' || metricKey === 'exception_rate_pct' || metricKey === 'api_success_pct') {
+      return `${m.actual > 0 ? '+' : ''}${m.actual.toFixed(0)}%`;
+    }
+    
     if (metricKey.includes('vnd') || metricKey.includes('cost_per_claim_vnd') || metricKey.includes('reserve_vnd')) {
       return formatVND(m.actual);
     }
@@ -150,15 +174,21 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
     if (!claim || !claim.metrics) return 'N/A';
     const m = claim.metrics[metricKey];
     if (!m || m.target === undefined || m.target === null) return 'N/A';
-    if (metricKey.includes('pct') || metricKey.includes('compliance') || metricKey === 'csat' || metricKey === 'ces' || metricKey === 'dropoff_pct' || metricKey === 'pct_manual_intervention' || metricKey === 'clv_update_pct') {
-      if (metricKey === 'csat' || metricKey === 'ces') {
-        return `${m.target.toFixed(1)}`;
-      }
-      if (metricKey === 'clv_update_pct') {
-        return `${(m.target * 100).toFixed(0)}%`;
-      }
+    
+    if (metricKey === 'csat' || metricKey === 'ces') {
+      return `${m.target.toFixed(1)}`;
+    }
+    
+    // Fractions (need * 100)
+    if (metricKey === 'pct_manual_intervention' || metricKey === 'sla_compliance' || metricKey === 'dropoff_pct' || metricKey === 'exception_rate_stp') {
       return `${(m.target * 100).toFixed(0)}%`;
     }
+    
+    // Percents (do not need * 100)
+    if (metricKey === 'clv_update_pct' || metricKey === 'exception_rate_pct' || metricKey === 'api_success_pct') {
+      return `${m.target.toFixed(0)}%`;
+    }
+    
     if (metricKey.includes('vnd') || metricKey.includes('cost_per_claim_vnd') || metricKey.includes('reserve_vnd')) {
       return formatVND(m.target);
     }
@@ -327,7 +357,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
 
                 <div>
                   <h4 className="text-[10px] font-bold text-[#00e5ff] uppercase tracking-wider mb-2 border-b border-white/10 pb-1">Operations & Risk (6 metrics)</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-6 gap-3">
                     <div className={`bg-[#050514]/40 border rounded p-2.5 flex flex-col justify-between ${getMetricClass('tat_days', m.tat_days)}`}>
                       {getMetricHeader('tat_days', 'TAT (Days)')}
                       {getMetricValueText('tat_days', m.tat_days)}
@@ -363,7 +393,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
 
                 <div>
                   <h4 className="text-[10px] font-bold text-[#b699ff] uppercase tracking-wider mb-2 border-b border-white/10 pb-1">Customer Experience (4 metrics)</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                     <div className={`bg-[#050514]/40 border rounded p-2.5 flex flex-col justify-between ${getMetricClass('csat', m.csat)}`}>
                       {getMetricHeader('csat', 'CSAT')}
                       {getMetricValueText('csat', m.csat)}
@@ -390,7 +420,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
 
                 <div>
                   <h4 className="text-[10px] font-bold text-[#ff2d78] uppercase tracking-wider mb-2 border-b border-white/10 pb-1">Revenue & Commercial (4 metrics)</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                     <div className={`bg-[#050514]/40 border rounded p-2.5 flex flex-col justify-between ${getMetricClass('cost_per_claim_vnd', m.cost_per_claim_vnd)}`}>
                       {getMetricHeader('cost_per_claim_vnd', 'Cost/Claim')}
                       {getMetricValueText('cost_per_claim_vnd', m.cost_per_claim_vnd)}
@@ -401,7 +431,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
                         {m.cross_sell_eligible?.actual ? m.cross_sell_eligible.product : <span className="text-gray-500 font-normal italic">Disabled</span>}
                       </span>
                     </div>
-                    <div className="bg-[#050514]/40 border border-white/10 rounded p-2.5 flex flex-col justify-between">
+                    <div className={`bg-[#050514]/40 border rounded p-2.5 flex flex-col justify-between ${getMetricClass('clv_update_pct', m.clv_update_pct)}`}>
                       {getMetricHeader('clv_update_pct', 'CLV Lift')}
                       <span className={`text-body-md font-bold mt-1 ${m.clv_update_pct?.actual < 0 ? 'text-[#ff2d78]' : 'text-[#00e5ff]'}`}>
                         {m.clv_update_pct?.actual !== null && m.clv_update_pct?.actual !== undefined ? `${m.clv_update_pct.actual > 0 ? '+' : ''}${m.clv_update_pct.actual}%` : '0%'}

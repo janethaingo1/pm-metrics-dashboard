@@ -245,7 +245,7 @@
           "target": 0.3,
           "variance_pct": 27,
           "trend_7d": "up",
-          "anomaly": "AMBER",
+          "anomaly": "RED",
           "source_ref": "LIMRA-OPS"
         },
         "sla_compliance": {
@@ -369,7 +369,7 @@
       },
       "expected_anomalies": [
         {
-          "level": "AMBER",
+          "level": "RED",
           "metric": "pct_manual_intervention",
           "title": "% manual intervention spike",
           "root_cause": "Cluster: 12 of 47 claims this week triggered manual review on Critical Illness documentation step (new SOP-2026-04)",
@@ -437,9 +437,9 @@
       ],
       "expected_recommendation": "Investigate cluster pattern. Implement SOP refinement. UI fix for upload step. Quantified commercial upside ~108M VND/week.",
       "dod_checklist": {
-        "three_amber_alerts_fire": true,
+        "one_red_alert_fires": true,
+        "two_amber_alerts_fire": true,
         "one_info_cross_domain_alert_fires": true,
-        "zero_red_alerts": true,
         "cross_sell_tile_shows_eligible_with_value": true,
         "clv_tile_shows_plus_8_pct": true,
         "nlp_q1_answers_with_this_claim_cited": true,
@@ -913,12 +913,27 @@
           "methodology_refs": [
             "LIMRA-OPS"
           ]
+        },
+        {
+          "level": "RED",
+          "metric": "clv_update_pct",
+          "title": "CLV erosion risk — cross-domain commercial signal",
+          "root_cause": "Projected CLV erosion of -15% (≈10.5M VND lifetime revenue at risk) due to unresolved documentation friction and SLA breach.",
+          "recommendation": "Trigger customer recovery protocol. Proactive outreach by senior relationship manager.",
+          "confidence_pct": 85,
+          "source_claims": [
+            "CLM-LIFE-2026-001755"
+          ],
+          "methodology_refs": [
+            "TOWERS-WATSON-CLV"
+          ]
         }
       ],
       "expected_recommendation": "Immediate escalation. Senior adjuster assignment. Customer recovery protocol. CLV erosion ~10.5M VND at risk; partial recovery possible.",
       "dod_checklist": {
-        "three_red_alerts_fire": true,
-        "two_amber_alerts_fire": true,
+        "five_red_alerts_fire": true,
+        "one_amber_alert_fires": true,
+        "one_info_cross_domain_alert_fires": false,
         "escalation_indicated": true,
         "clv_minus_15_pct_with_vnd_value_displayed": true,
         "commercial_impact_quantified_in_dong": true,

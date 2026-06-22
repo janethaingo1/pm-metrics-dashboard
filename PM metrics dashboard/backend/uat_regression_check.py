@@ -45,9 +45,9 @@ def test_uat():
     # Expected anomaly counts per v1.2
     expected_counts = {
         "CLM-LIFE-2026-001500": 0,
-        "CLM-LIFE-2026-001847": 4,  # 3 AMBER + 1 INFO
+        "CLM-LIFE-2026-001847": 4,  # 1 RED + 2 AMBER + 1 INFO
         "CLM-LIFE-2026-001923": 1,  # 1 RED (fraud)
-        "CLM-LIFE-2026-001755": 5,  # 4 RED + 1 AMBER
+        "CLM-LIFE-2026-001755": 6,  # 5 RED + 1 AMBER
     }
 
     for cid, exp_count in expected_counts.items():

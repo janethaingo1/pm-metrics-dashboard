@@ -91,9 +91,7 @@ function App() {
 
   const handleToggleKillSwitch = async (targetState?: boolean) => {
     setKillSwitchLoading(true);
-    // Optimistic UI update
     const nextState = targetState !== undefined ? targetState : !aiLayerEnabled;
-    setAiLayerEnabled(nextState);
 
     try {
       const res = await fetch('https://prudential-pmm-metrics-api.vercel.app/api/killswitch', {
@@ -105,8 +103,6 @@ function App() {
       setAiLayerEnabled(data.ai_layer_enabled);
     } catch (err) {
       console.error('Error toggling AI layer kill switch:', err);
-      // Rollback
-      setAiLayerEnabled(!nextState);
     } finally {
       setKillSwitchLoading(false);
     }

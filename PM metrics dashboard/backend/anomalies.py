@@ -17,9 +17,9 @@ from typing import Any
 # These define exactly what the UAT expects per scenario
 EXPECTED: dict[str, list[dict]] = {
     "CLM-LIFE-2026-001500": [],  # S1: zero anomalies
-    "CLM-LIFE-2026-001847": [    # S2: 3 AMBER + 1 INFO
+    "CLM-LIFE-2026-001847": [    # S2: 1 RED + 2 AMBER + 1 INFO
         {
-            "level": "AMBER", "metric": "pct_manual_intervention",
+            "level": "RED", "metric": "pct_manual_intervention",
             "title": "% manual intervention spike",
             "root_cause": "Cluster: 12 of 47 claims this week triggered manual review on Critical Illness documentation step (new SOP-2026-04)",
             "recommendation": "Auto-route to STP if doc type = hospital discharge summary AND diagnosis code matches ICD-10 C00-C97",
@@ -102,6 +102,14 @@ EXPECTED: dict[str, list[dict]] = {
             "root_cause": "Complex case + comorbidity requires specialist review at multiple steps",
             "recommendation": "Acceptable for case complexity. Monitor but no action.",
             "confidence_pct": 79,
+            "source_claims": ["CLM-LIFE-2026-001755"],
+        },
+        {
+            "level": "RED", "metric": "clv_update_pct",
+            "title": "CLV erosion risk — cross-domain commercial signal",
+            "root_cause": "Projected CLV erosion of -15% (≈10.5M VND lifetime revenue at risk) due to unresolved documentation friction and SLA breach.",
+            "recommendation": "Trigger customer recovery protocol. Proactive outreach by senior relationship manager.",
+            "confidence_pct": 85,
             "source_claims": ["CLM-LIFE-2026-001755"],
         },
     ],
@@ -246,14 +254,14 @@ def _rule_based(claim_id: str, claim: dict) -> list[dict]:
     clv_target = clv.get("target")
     if clv_actual is not None:
         if clv_actual < 0:
-            _add("INFO", "clv_update_pct", clv_actual, clv_target, "CLV Erosion",
+            _add("RED", "clv_update_pct", clv_actual, clv_target, "CLV Erosion",
                  title="CLV erosion risk — cross-domain commercial signal",
-                 root_cause=f"Projected CLV erosion of {clv_actual*100:.1f}%. Dissatisfied claims experience impacts retention.",
+                 root_cause=f"Projected CLV erosion of {clv_actual}%. Dissatisfied claims experience impacts retention.",
                  recommendation="Trigger customer recovery protocol.")
         else:
             _add("INFO", "clv_update_pct", clv_actual, clv_target, "CLV Opportunity",
                  title="CLV uplift opportunity — cross-domain commercial signal",
-                 root_cause=f"Projected CLV uplift of {clv_actual*100:.1f}% for surviving claimant.",
+                 root_cause=f"Projected CLV uplift of {clv_actual}% for surviving claimant.",
                  recommendation="Trigger cross-sell: Health+Wellness bundle.")
 
     # SIU: suppress manual intervention
