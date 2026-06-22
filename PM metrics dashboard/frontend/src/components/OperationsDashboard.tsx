@@ -22,14 +22,14 @@ interface OperationsDashboardProps {
 const ASSUMPTIONS: Record<string, { row: string; source: string; value: string; ref: string }> = {
   tat_days: { row: 'O1/O2', source: 'LIMRA Claims Benchmark 2024', value: 'Simple: <3d green, 3-5d amber, >5d red | Complex: <15d green, 15-30d amber, >30d red', ref: 'LIMRA Claims Benchmark 2024' },
   pct_manual_intervention: { row: 'O3', source: 'STP Target', value: '<25% green, >30% red (Inverse of STP target >70%)', ref: 'Industry Standard' },
-  sla_compliance: { row: 'O4', source: 'Prudential Internal', value: '>95% green, <90% red', ref: 'Prudential Vietnam SLA 2025' },
-  fraud_score: { row: 'O5', source: 'Prudential Risk + SBV', value: '>65% green (precision), <60% red', ref: 'SBV Circular 09/2020 Art.14' },
+  sla_compliance: { row: 'O4', source: 'Internal System', value: '>95% green, <90% red', ref: 'Standard SLA 2025' },
+  fraud_score: { row: 'O5', source: 'Risk System + SBV', value: '>65% green (precision), <60% red', ref: 'SBV Circular 09/2020 Art.14' },
   exception_rate_pct: { row: 'O3', source: 'STP Target / LIMRA', value: '<5% target exception rate', ref: 'LIMRA Claims Benchmark 2024' },
   api_success_latency: { row: 'A1/C1', source: 'Bain NPS Prism + MoF', value: 'API Success >97% | Latency <200ms', ref: 'Bain NPS Prism 2025 / Vietnam MoF Circular 50/2024' },
   csat: { row: 'X1', source: 'Forrester CX Index 2025', value: '>4.2 green, <4.0 red', ref: 'Forrester CX Index, Insurance 2025' },
   ces: { row: 'X2', source: 'Forrester CX Index 2025', value: '>4.0 green, <3.6 red', ref: 'Forrester CES, Insurance 2025' },
   dropoff_pct: { row: 'X3', source: 'UX Best Practice', value: '<10% green, >25% red', ref: 'Nielsen Norman Group, Form Usability 2024' },
-  tickets: { row: 'O4', source: 'Prudential Internal', value: 'Ticket TAT target <4h', ref: 'Prudential Vietnam SLA 2025' },
+  tickets: { row: 'O4', source: 'Internal System', value: 'Ticket TAT target <4h', ref: 'Standard SLA 2025' },
   cost_per_claim_vnd: { row: 'C1', source: 'Vietnam MoF + LIMRA 2024', value: 'Avg 1.2M VND simple, 2.8M VND complex', ref: 'Ministry of Finance Vietnam Circular 50/2024' },
   cross_sell_eligible: { row: 'R1', source: 'Bain APAC Insurance 2025', value: '>1.5 green, <1.2 red ratio', ref: 'Bain & Company, APAC Insurance Distribution 2025' },
   clv_update_pct: { row: 'C3/R2', source: 'TW + Bain 2025', value: 'Avg CLV 15M VND per premium customer (8yr horizon) | ±15% per claim', ref: 'Towers Watson + Bain CLV Model' },
@@ -55,7 +55,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
   useEffect(() => {
     if (!selectedClaimId) return;
     setLoading(true);
-    fetch(`https://prudential-pmm-metrics-api.vercel.app/api/claims/${selectedClaimId}`)
+    fetch(`https://pm-metrics-ai-api.vercel.app/api/claims/${selectedClaimId}`)
       .then(res => res.json())
       .then(data => { setClaimDetail(data); setLoading(false); })
       .catch(err => { console.error(err); setLoading(false); });
@@ -64,7 +64,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
   useEffect(() => {
     if (!selectedClaimId) return;
     if (aiLayerEnabled) {
-      fetch(`https://prudential-pmm-metrics-api.vercel.app/api/anomalies/${selectedClaimId}`)
+      fetch(`https://pm-metrics-ai-api.vercel.app/api/anomalies/${selectedClaimId}`)
         .then(res => res.json())
         .then(data => setAnomalies(data.anomalies || []))
         .catch(() => setAnomalies([]));
@@ -305,7 +305,7 @@ export const OperationsDashboard: React.FC<OperationsDashboardProps> = ({
     }
     const q = chatInput; setChatHistory(p => [...p, { sender: 'user', text: q }]); setChatInput(''); setChatLoading(true);
     try {
-      const res = await fetch('https://prudential-pmm-metrics-api.vercel.app/api/nlp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: q }) });
+      const res = await fetch('https://pm-metrics-ai-api.vercel.app/api/nlp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: q }) });
       const d = await res.json();
       setQueryCount(p => p + 1);
       setChatHistory(p => [...p, aiLayerEnabled ? { sender: 'system', text: d.answer, confidence: d.confidence_pct, citations: d.source_claims } : { sender: 'system', text: 'NLP Engine offline: AI layer disabled.' }]);

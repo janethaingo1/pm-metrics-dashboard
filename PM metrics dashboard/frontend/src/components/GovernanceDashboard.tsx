@@ -24,7 +24,7 @@ export const GovernanceDashboard: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('https://prudential-pmm-metrics-api.vercel.app/api/logs');
+      const res = await fetch('https://pm-metrics-ai-api.vercel.app/api/logs');
       if (res.ok) {
         const data = await res.json();
         setLogs(data.logs || []);

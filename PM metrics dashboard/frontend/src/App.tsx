@@ -32,7 +32,7 @@ function App() {
     const initFetch = async () => {
       try {
         // Fetch health for AI state
-        const healthRes = await fetch('https://prudential-pmm-metrics-api.vercel.app/api/health');
+        const healthRes = await fetch('https://pm-metrics-ai-api.vercel.app/api/health');
         if (healthRes.ok) {
           const healthData = await healthRes.json();
           setAiLayerEnabled(healthData.ai_layer_enabled);
@@ -42,7 +42,7 @@ function App() {
         }
 
         // Fetch claims
-        const claimsRes = await fetch('https://prudential-pmm-metrics-api.vercel.app/api/claims');
+        const claimsRes = await fetch('https://pm-metrics-ai-api.vercel.app/api/claims');
         const claimsData = await claimsRes.json();
         const claimsList = claimsData.claims || [];
         setClaims(claimsList);
@@ -51,7 +51,7 @@ function App() {
         }
 
         // Fetch period & platform metrics
-        const periodRes = await fetch('https://prudential-pmm-metrics-api.vercel.app/api/period');
+        const periodRes = await fetch('https://pm-metrics-ai-api.vercel.app/api/period');
         const periodDataJson = await periodRes.json();
         setPeriodData(periodDataJson);
       } catch (err) {
@@ -70,7 +70,7 @@ function App() {
   useEffect(() => {
     const pollHealth = async () => {
       try {
-        const res = await fetch('https://prudential-pmm-metrics-api.vercel.app/api/health');
+        const res = await fetch('https://pm-metrics-ai-api.vercel.app/api/health');
         if (res.ok) {
           const data = await res.json();
           setApiOnline(true);
@@ -94,7 +94,7 @@ function App() {
     const nextState = targetState !== undefined ? targetState : !aiLayerEnabled;
 
     try {
-      const res = await fetch('https://prudential-pmm-metrics-api.vercel.app/api/killswitch', {
+      const res = await fetch('https://pm-metrics-ai-api.vercel.app/api/killswitch', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ enabled: nextState }),
@@ -136,7 +136,7 @@ function App() {
             <path d="M13 23 L24 18 L33 11.5" fill="none" stroke="var(--blue)" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'brightness(1.5)' }}></path>
             <circle cx="33" cy="11.5" r="2.3" fill="#ffffff"></circle>
             <text x="62" y="20" fontFamily="Inter, sans-serif" fontSize="18" fontWeight="800" letterSpacing="-0.2" fill="var(--ink)">PMMetricsAI</text>
-            <text x="62" y="37" fontFamily="Inter, sans-serif" fontSize="11.5" fontWeight="600" fill="var(--muted)">Prudential KPI Control</text>
+            <text x="62" y="37" fontFamily="Inter, sans-serif" fontSize="11.5" fontWeight="600" fill="var(--muted)">Personal KPI Control</text>
           </svg>
         </div>
 
